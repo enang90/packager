@@ -7,6 +7,6 @@
   echo $form->input('username');
   echo $form->input('email');
   echo $form->input('password');
-  echo $form->input('password_confirm', array('label' => 'Confirm password'));
+  echo $form->input('password_confirm', array('label' => 'Confirm password', 'type' => 'password'));
   echo $form->end('Sign up!');
 ?>

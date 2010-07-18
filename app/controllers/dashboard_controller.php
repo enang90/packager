@@ -7,7 +7,7 @@ class DashboardController extends AppController {
 
 	var $uses = array('Brands');
 	
-	function index() {		
+	function index() {
 	}
 	
 }

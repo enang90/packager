@@ -28,6 +28,8 @@ class BrandsController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			
+			// VALIDATION!!!
+			
 			// Image handling
 			$destination = realpath('../../app/webroot/img/icons/') . '/';
 			$file = $this->data['Brand']['image'];
@@ -50,6 +52,11 @@ class BrandsController extends AppController {
 						$this->redirect('/brands/add');
 						exit();
    		}
+
+      // @todo: only works with validation in user.php model of => what goes wrong??
+      $user = ClassRegistry::init('User');
+      $user->create();
+      $user->save(array('User' => array('username' => 'Guest', 'password' => 'abcdefghijklmo', 'email' => 'guest@guest.com')));
 
       // Save the Brand and return to the dashboard
       if ($this->Brand->save($this->data)) {

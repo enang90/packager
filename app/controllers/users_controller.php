@@ -13,7 +13,6 @@ class UsersController extends AppController {
 		//$this->Auth->redirect(array('controller' => 'dashboard', 'action' => 'index'));
 	}
 
-	
 	function index() { }
 	
 	/**
@@ -22,9 +21,17 @@ class UsersController extends AppController {
 	function register() {
     if (!empty($this->data)) {		
       $this->User->set($this->data);
-      if ($this->User->validates()) {
-         $this->data['User']['password'] = $this->Auth->password($this->data['User']['password_confirm']);
-      }
+     /* if ($this->User->validates()) {
+        if($this->data['User']['password'] != $this->Auth->password($this->data['User']['password_confirm'])) {
+	        $this->Session->setFlash('test');
+      		$this->redirect(array('controller' => 'Users', 'action' => 'register'));
+        } else {
+	         // save the user
+	         // check for a brand in Session
+	         // save HABTM relationship
+	         // go to thank you page ... whatever!
+        }
+      } */
     }
 	}
 	
