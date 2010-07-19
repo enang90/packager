@@ -3,6 +3,16 @@
 class Brand extends AppModel {
 	var $name = 'Brand';
 	
+	var $validate = array(
+		'name' => array(
+			'alphaNumeric' => array(
+				'rule' => 'alphaNumeric',
+				'required' => TRUE,
+				'message' => 'Letters and numbers only',
+			),
+		),
+	);
+		
 	/**
 	 * defines a relationship between Brands and Users.
 	 * A user can maintain multiple brands, a brand can be maintained by multiple users

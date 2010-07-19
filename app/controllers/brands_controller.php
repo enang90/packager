@@ -15,7 +15,7 @@ class BrandsController extends AppController {
 		  } else {
 			  $brand['icon'] = 'icons/' . $brand['icon'];
 		  }
-		
+	
 		  return $brand;	
     }
     // If someone goes to /brands, redirect to the controller
@@ -53,10 +53,17 @@ class BrandsController extends AppController {
 						exit();
    		}
 
-      // @todo: only works with validation in user.php model of => what goes wrong??
+      // create a new stub user and save the user.
+      // @todo Only create a new user if there is no active user session.
       $user = ClassRegistry::init('User');
       $user->create();
-      $user->save(array('User' => array('username' => 'Guest', 'password' => 'abcdefghijklmo', 'email' => 'guest@guest.com')));
+      $user->save(array('User' => array('username' => 'Guest', 'password' => '', 'email' => '', 'blocked' => 1)), FALSE);
+
+      // @todo Auto init a session for this new Guest user.
+      //$this->Auth->login(array('id' => $user->id));
+
+      // we need the user id to ensure a HABTM relationship
+      $this->data['User']['id'] = $user->id;
 
       // Save the Brand and return to the dashboard
       if ($this->Brand->save($this->data)) {
