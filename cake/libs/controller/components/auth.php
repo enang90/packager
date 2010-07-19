@@ -863,7 +863,6 @@ class AuthComponent extends Object {
 		} elseif (is_array($user) && isset($user[$model->alias])) {
 			$user = $user[$model->alias];
 		}
-
 		if (is_array($user) && (isset($user[$this->fields['username']]) || isset($user[$model->alias . '.' . $this->fields['username']]))) {
 			if (isset($user[$this->fields['username']]) && !empty($user[$this->fields['username']])  && !empty($user[$this->fields['password']])) {
 				if (trim($user[$this->fields['username']]) == '=' || trim($user[$this->fields['password']]) == '=') {

@@ -4,21 +4,31 @@ class BrandsController extends AppController {
   var $name = 'Brands';
   var $components = array('Upload', 'Session');
 
-  function index() { 
-    // Prepare for the brand.ctp element
+  function beforeFilter() {
+	  parent::beforeFilter();
+	  $this->Auth->allow('information', 'add');
+  }
+
+  /**
+   * Preprocesses information for the brand.ctp element
+   */
+  function information() { 
     if (isset($this->params['requested'])) {
 		  $brand = $this->Session->read('Brand');
-
 		  if (!$brand) {
-			  $brand['icon'] = 'placeholder.gif';
-			  $brand['name'] = 'Goliath Messenger';
+			  $brand = array(
+				  'icon' => 'placeholder.gif',
+				  'name' => 'Goliath Messenger',
+				);
 		  } else {
 			  $brand['icon'] = 'icons/' . $brand['icon'];
 		  }
+		  
+		  $variables = compact('brand');
 	
-		  return $brand;	
+		  return $variables;	
     }
-    // If someone goes to /brands, redirect to the controller
+    // If someone goes to /brands/information, redirect to the controller
 	  $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
 	}
 		
@@ -55,12 +65,18 @@ class BrandsController extends AppController {
 
       // create a new stub user and save the user.
       // @todo Only create a new user if there is no active user session.
+      $data = array(
+	      'User' => array(
+		      'username' => 'Guest' . Security::hash(Configure::read('Security.salt') . time() . rand(1, 100)),
+		      'password' => Security::hash(Configure::read('Security.salt') . (time() + 10) . rand(1, 100)),
+		      'email' => '', 
+		      'blocked' => 1,
+		    ),
+		  );
+		
       $user = ClassRegistry::init('User');
       $user->create();
-      $user->save(array('User' => array('username' => 'Guest', 'password' => '', 'email' => '', 'blocked' => 1)), FALSE);
-
-      // @todo Auto init a session for this new Guest user.
-      //$this->Auth->login(array('id' => $user->id));
+      $user->save($data, FALSE);
 
       // we need the user id to ensure a HABTM relationship
       $this->data['User']['id'] = $user->id;
@@ -70,6 +86,12 @@ class BrandsController extends AppController {
 	      $brand = $this->Brand->find("id = '" . $this->Brand->id . "'"); // urgh, extra query...
 	      $this->Session->write('Brand', $brand['Brand']);
         $this->Session->setFlash('Your brand has been saved');
+      }
+
+      // let's autologin with the stub user
+      $login = $this->Auth->login($data);
+      if ($login) {
+	      $this->redirect($this->Auth->redirect());
       }
 
 			$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));

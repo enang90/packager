@@ -1,5 +1,8 @@
 
-<?php $brand = $this->requestAction('brands/index'); ?>
+<?php 
+  $variables = $this->requestAction('brands/information'); 
+  extract($variables);
+?>
 
 <div id="brand" class="clearfix">
 	<?php echo $html->image($brand['icon']); ?>

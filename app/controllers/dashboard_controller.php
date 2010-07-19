@@ -8,6 +8,11 @@ class DashboardController extends AppController {
 
 	var $uses = array('Brands');
 	
+	function beforeFilter() {
+	  parent::beforeFilter();
+	  $this->Auth->allow('index');
+  }
+	
 	function index() { }
 	
 }

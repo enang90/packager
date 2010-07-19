@@ -30,7 +30,8 @@
     </header>
 
     <div class="content">
-	    <?php echo $this->Session->flash(); ?>
+	    <?php echo $session->flash(); ?>
+	    <?php echo $session->flash('auth'); ?>
       <?php echo $content_for_layout ?>
     </div>
 

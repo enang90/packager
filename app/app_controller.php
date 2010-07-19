@@ -1,17 +1,9 @@
 <?php
+
 class AppController extends Controller {
-	var $components = array('Session');
-	
-/*  var $components = array('Auth', 'Session');
+  var $components = array('Session', 'Auth');
 
 	function beforeFilter(){
-    $this->Auth->action = array('controller' => 'users', 'action' => 'login');
-    $this->Auth->redirect = array('controller' => 'pages', 'action' => 'display', 'home');
-    $this->Auth->allow('display');
-    $this->Auth->authorize = 'controller';
+    $this->Auth->loginRedirect = array('controller' => 'dashboard', 'action' => 'index');
   }
-
-	function isAuthorized() {
-    return true;
-	} */
 }

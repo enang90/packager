@@ -2,18 +2,34 @@
 
 class UsersController extends AppController {
 	var $name = 'Users';
-	var $components = array('Auth');
 
-
-	function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->authorize = 'controller';
-		$this->Auth->allow(array('register'));
-
-		$this->Auth->redirect(array('controller' => 'dashboard', 'action' => 'index'));
-	}
+  function beforeFilter() {
+	  parent::beforeFilter();
+	  $this->Auth->allow('register', 'information');
+  }
 
 	function index() { }
+
+  /**
+   * Preprocesses information for the brand.ctp element
+   */
+  function information() { 
+    if (isset($this->params['requested'])) {
+		  $user = $this->Session->read('Auth.User');
+		  $logged_in = TRUE;
+		
+		  if (!$user) {
+			  $logged_in = FALSE;
+			  $user['username'] = 'Guest';
+		  }
+		
+		  $variables = compact('user', 'logged_in');
+			
+		  return $variables;	
+    }
+    // If someone goes to /brands/information, redirect to the controller
+	  $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
+	}
 	
 	/**
 	 * Registers a new user account
@@ -22,18 +38,15 @@ class UsersController extends AppController {
     if (!empty($this->data)) {		
       $this->User->set($this->data);
       if ($this->User->validates()) {
-        if($this->data['User']['password'] != $this->Auth->password($this->data['User']['password_confirm'])) {
-	        $this->Session->setFlash('test');
-      		$this->redirect(array('controller' => 'Users', 'action' => 'register'));
-        } else {
+	         $this->User->save($this->data);
+	         pr($this->User);
 	         // save the user
 	         // check for a brand in Session
 	         // save HABTM relationship
 	         // go to thank you page ... whatever!
-        }
       }
     }
-	}
+	}	
 	
 	// @todo Improper redirect at /users/login : why?
 	function login() { 
