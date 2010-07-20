@@ -38,17 +38,21 @@ class UsersController extends AppController {
     if (!empty($this->data)) {		
       $this->User->set($this->data);
       if ($this->User->validates()) {
-	         $this->User->save($this->data);
-	         pr($this->User);
-	         // save the user
-	         // check for a brand in Session
-	         // save HABTM relationship
-	         // go to thank you page ... whatever!
+	      $brand = $this->Session->read('Brand');
+	      if ($brand) {
+          $this->data['Brand']['id'] = $brand['id'];
+      	}
+	      $this->User->save($this->data);
+
+        // auto login: associate a User session with the active brand
+	      $login = $this->Auth->login($this->data);
+        if ($login) {
+	        $this->redirect($this->Auth->redirect());
+        }        
       }
     }
 	}	
 	
-	// @todo Improper redirect at /users/login : why?
 	function login() { 
 	}
 	

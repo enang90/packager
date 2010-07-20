@@ -14,5 +14,4 @@ class DashboardController extends AppController {
   }
 	
 	function index() { }
-	
 }

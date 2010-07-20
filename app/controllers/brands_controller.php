@@ -36,9 +36,8 @@ class BrandsController extends AppController {
 	 * Add a brand new brand
 	 */
 	function add() {
-		if (!empty($this->data)) {
-			
-			// VALIDATION!!!
+		if ((!empty($this->data)) && ($this->Brand->validates())) {
+			$auto_login = FALSE;
 			
 			// Image handling
 			$destination = realpath('../../app/webroot/img/icons/') . '/';
@@ -56,30 +55,39 @@ class BrandsController extends AppController {
 				$errors = $this->Upload->errors;
 
 						// piece together errors
-						if(is_array($errors)){ $errors = implode("<br />",$errors); }
+						if (is_array($errors)) {
+              $errors = implode("<br />",$errors); 
+            }
 
 						$this->Session->setFlash($errors);
 						$this->redirect('/brands/add');
 						exit();
    		}
 
-      // create a new stub user and save the user.
-      // @todo Only create a new user if there is no active user session.
-      $data = array(
-	      'User' => array(
-		      'username' => 'Guest' . Security::hash(Configure::read('Security.salt') . time() . rand(1, 100)),
-		      'password' => Security::hash(Configure::read('Security.salt') . (time() + 10) . rand(1, 100)),
-		      'email' => '', 
-		      'blocked' => 1,
-		    ),
-		  );
+      $user = $this->Session->read('Auth.User');
+    
+      if (!$user) {
+        // create a new stub user and save the user.
+        // @todo are the username/password random enough?
+        // @todo add an extra flag to indicate they are a stub?
+        $data = array(
+	        'User' => array(
+		        'username' => 'Guest' . Security::hash(Configure::read('Security.salt') . time() . rand(1, 100)),
+		        'password' => Security::hash(Configure::read('Security.salt') . (time() + 10) . rand(1, 100)),
+  		      'email' => '', 
+	  	      'blocked' => 1,
+		      ),
+		    );
 		
-      $user = ClassRegistry::init('User');
-      $user->create();
-      $user->save($data, FALSE);
+        $user = ClassRegistry::init('User');
+        $user->create();
+        $user->save($data, FALSE);
+        $auto_login = TRUE;
 
-      // we need the user id to ensure a HABTM relationship
-      $this->data['User']['id'] = $user->id;
+	      $this->data['User']['id'] = $user->id;
+      } else {
+        $this->data['User']['id'] = $user['id'];
+      }
 
       // Save the Brand and return to the dashboard
       if ($this->Brand->save($this->data)) {
@@ -89,11 +97,14 @@ class BrandsController extends AppController {
       }
 
       // let's autologin with the stub user
-      $login = $this->Auth->login($data);
-      if ($login) {
-	      $this->redirect($this->Auth->redirect());
+      if ($auto_login) {
+        $login = $this->Auth->login($data);
+        if ($login) {
+	        $this->redirect($this->Auth->redirect());
+        }
       }
 
+      // @todo redirect to the actual page they are on instead of defaulting to the dashboard
 			$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
     }
 	}

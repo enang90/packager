@@ -10,9 +10,13 @@ class User extends AppModel {
 				'required' => TRUE,
 				'message' => 'Letters and numbers only',
 			),
+		  'usernameUnique' => array(
+			  'rule' => array('uniqueUsername', 'username'),
+			  'message' => 'A user with that username already exists',
+			),
 		),
 		'email' => array(
-			'rule' => array('email', true),
+			'rule' => array('email', FALSE),
 	    'message' => 'Please provide a valid email',
 		),
 		'password' => array(
@@ -31,9 +35,27 @@ class User extends AppModel {
 		),
     'password_confirm' => array(
 	    'rule' => 'alphanumeric',
-      'required' => true),
-		);
+      'required' => true
+    ),
+	);
 	
+	/**
+	 * defines a relationship between Brands and Users.
+	 * A user can maintain multiple brands, a brand can be maintained by multiple users
+	 */
+	var $hasAndBelongsToMany = array(
+		'Brand' => array(
+			'className' => 'Brand',
+			'joinTable' => 'brands_users',
+			'foreignKey' => 'user_id',
+			'associatedForeignKey' => 'brand_id',
+			'unique' => TRUE,
+		),
+	);
+	
+	/**
+	 * Validation rule: Checks if passwords match
+	 */
   function confirmPassword($data) {
 	  $valid = FALSE;
 	
@@ -42,7 +64,18 @@ class User extends AppModel {
     }
     return $valid;
   }
-	
+
+  /**
+   * Validation rule: usernames must be unique
+   */
+  function uniqueUsername($data) {
+    $user = $this->find(array('username' => $data['username']), array('id', 'username'));
+    if ($user) {
+	    return FALSE;
+    }
+
+    return TRUE;
+  }
 	
 /* 	function validateLogin($data) {
 		$user = $this->find(array('username' => $data['username'], 'password' => md5($data['password'])), array('id', 'username'));
