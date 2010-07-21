@@ -4,8 +4,8 @@
 
 <?php
 
-echo $form->create('Brand', array('type' => 'file'));
-echo $form->input('id', array('type'=>'hidden'));
-echo $form->input('name');
-echo $form->file('image');
-echo $form->end('Edit');
+echo $this->Form->create('Brand', array('type' => 'file'));
+echo $this->Form->input('id', array('type'=>'hidden'));
+echo $this->Form->input('name');
+echo $this->Form->file('image');
+echo $this->Form->end('Edit');

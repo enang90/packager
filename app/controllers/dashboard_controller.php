@@ -13,9 +13,5 @@ class DashboardController extends AppController {
 	  $this->Auth->allow('index');
   }
 	
-	function index() {
-  //   $user = ClassRegistry::init('User');
-   //  $user->find(array('id' => '1'));
-     $user = $this->Session->read('Auth.User');
-	 }
+	function index() { }
 }

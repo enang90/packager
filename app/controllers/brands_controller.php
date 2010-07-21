@@ -18,6 +18,10 @@ class BrandsController extends AppController {
     if (isset($this->params['requested'])) {
 	    $brands = array();
       $brand = $this->Session->read('Brand');
+
+      if (!$brand) {
+	      $brand = FALSE;
+      }
 	
 	    if ($_user = $this->Auth->user()) {
         // @todo: generate a list of brands and show them in a form element
@@ -25,21 +29,9 @@ class BrandsController extends AppController {
         $this->User->id = $_user['User']['id'];
         $data = $this->User->read();
  		    $brands = $data['Brand']; // multiple brands
-
-        if ($brand) {
-	        foreach ($brands as $key => $_brand) {
-        		$brands[$key]['active'] = FALSE;
-		        if ($brands[$key]['id'] == $brand['id']) {
-		          $brands[$key]['active'] = TRUE;
-		        }
-	        }
-        }
-	    } else if ($brand) {
-		    $brand['active'] = TRUE;
-    		$brands[] = $brand;
 	    }
 
-		  $variables = compact('brands');
+		  $variables = compact('brands', 'brand');
 	
 		  return $variables;
     }
@@ -84,24 +76,19 @@ class BrandsController extends AppController {
       if (!$user) {
         // create a new stub user and save the user.
         // @todo are the username/password random enough?
-        // @todo add an extra flag to indicate they are a stub?
         $data = array(
 	        'User' => array(
-		        //'username' => 'Guest' . Security::hash(Configure::read('Security.salt') . time() . rand(1, 100)),
 		        'username' => 'Guest',
 		        'password' => Security::hash(Configure::read('Security.salt') . (time() + 10) . rand(1, 100)),
   		      'email' => '', 
 	  	      'blocked' => 1,
 		      ),
 		    );
+		
+        $this->User->create();
+        $this->User->save($data, FALSE);
 
-        // @todo: use $this->User instead		
-        $user = ClassRegistry::init('User');
-        $user->create();
-        $user->save($data, FALSE);
-        $auto_login = TRUE;
-
-	      $this->data['User']['id'] = $user->id;
+	      $this->data['User']['id'] = $this->User->id;
       } else {
         $this->data['User']['id'] = $user['id'];
       }
@@ -112,14 +99,6 @@ class BrandsController extends AppController {
 	      $this->Session->write('Brand', $brand['Brand']);
         $this->Session->setFlash('Your brand has been saved');
       }
-
-      // let's autologin with the stub user
-      /* if ($auto_login) {
-        $login = $this->Auth->login($data);
-        if ($login) {
-	        $this->redirect($this->Auth->redirect());
-        }
-      } */
 
       // @todo redirect to the actual page they are on instead of defaulting to the dashboard
 			$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
@@ -139,5 +118,21 @@ class BrandsController extends AppController {
 	      $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
 	    }
     }
+	}
+	
+	/**
+	 * Switch to a different active Brand
+	 */
+	function switchBrand($id = NULL) {
+		if ($id) {			
+		  $this->Brand->id = $id;
+		  $data = $this->Brand->read();
+      if ($this->Session->read('Brand')) {
+	      $this->Session->delete('Brand');
+      }
+      $this->Session->write('Brand', $data['Brand']);
+	  }
+		
+    $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
 	}
 }

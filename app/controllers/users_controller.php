@@ -16,20 +16,20 @@ class UsersController extends AppController {
 	 * Registers a new user account
 	 */
 	function register() {
-		//$brand = $this->Session->read('Brand');
-		//$this->Brand->id = $brand['id'];
-		//$this->Brand->read();
-
-
+		$brand = $this->Session->read('Brand');
+		$this->Brand->id = $brand['id'];
+		$this->Brand->read();
 
     if (!empty($this->data)) {		
       $this->User->set($this->data);
       if ($this->User->validates()) {
 	      $brand = $this->Session->read('Brand');
 	
-	      // @todo: check session for guest account: reuse of record!!
+	      // reuse the Guest account. Reduce no of stale accounts.
 	      if ($brand) {
-          $this->data['Brand']['id'] = $brand['id'];
+					$this->Brand->id = $brand['id'];
+					$this->Brand->read();
+          $this->User->id = $this->Brand->data['User'][0]['id'];
       	}
 	      $this->User->save($this->data);
 

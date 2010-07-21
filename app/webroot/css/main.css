@@ -159,19 +159,12 @@ input {
 
 div#brands-widget {
   margin: 0 0 10px 0;
+  position: relative;
 }
 div#brands-widget,
 div#brands-widget div.brand {
   width: 400px;
 }
-
-div#brands-widget div.brand {
-  display: none;
-}
-div#brands-widget div.brand.active {
-  display: block;
-}
-
 div#brands-widget div.brand img {
   float: left;
   margin: 0 10px 0 0;
@@ -184,6 +177,47 @@ div#brands-widget div.brand h2 {
 div#brands-widget div.brand span {
   font-size: 0.8em;
 }
+
+div#brands-widget img#brands-select {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* @end */
+
+/* @groups brand switcher */
+div#brands-selector div.brand {
+  width: 365px;
+}
+
+div#brands-selector div.brand img {
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+div#brands-selector div.brand h2 {
+  font-size: 1.5em;
+}
+
+div#brands-selector div.brand span {
+  font-size: 0.8em;
+}
+
+.modal {
+	background-color:#fff;
+	display: none;
+	width:365px;
+	padding: 5px;
+	text-align:left;
+	border:2px solid #333;
+
+	opacity:0.95;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	-moz-box-shadow: 0 0 50px #ccc;
+	-webkit-box-shadow: 0 0 50px #ccc;
+}
+/* @end */
 
 /* @end */
 
@@ -240,6 +274,20 @@ div.message,
 tr.message {
   background-color: #dfd;
   color: #020;
+}
+/* @end */
+
+/* @group dashboard */
+
+div.flyer {
+  float: left;
+  margin: 0 10px 0 0;
+  width: 600px;
+}
+
+div.flyer p {
+  line-height: 1.5;
+  margin: 0 0 1em 0;
 }
 /* @end */
 
