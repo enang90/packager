@@ -157,29 +157,40 @@ input {
 
 /* @group brand */
 
-div#brand {
+div#brands-widget {
+  margin: 0 0 10px 0;
+}
+div#brands-widget,
+div#brands-widget div.brand {
   width: 400px;
 }
 
-div#brand img {
+div#brands-widget div.brand {
+  display: none;
+}
+div#brands-widget div.brand.active {
+  display: block;
+}
+
+div#brands-widget div.brand img {
   float: left;
   margin: 0 10px 0 0;
 }
 
-div#brand h2 {
+div#brands-widget div.brand h2 {
   font-size: 1.5em;
 }
 
-div#brand span {
+div#brands-widget div.brand span {
   font-size: 0.8em;
 }
 
 /* @end */
 
 /* @group user info box*/
-div#user-info {
+div#user-widget {
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 15px;
 }
 /* @end */
@@ -193,6 +204,43 @@ nav li {
   padding: 3px;
 }
 
+/* @end */
+
+/* @group flash Messages */
+div#flashMessage {
+  background-color: #dfd;
+  color: #000;
+  margin-bottom: 0.25em;
+  padding: 0.25em 0.5em;
+}
+
+.error {
+  color: #e55;
+}
+
+div#flashMessage.error,
+div#flashMessage tr.error {
+  background-color: #fcc;
+}
+
+.warning {
+  color: #e09010;
+}
+
+div.warning,
+tr.warning {
+  background-color: #fcfca7;
+}
+
+.message {
+  color: #008000;
+}
+
+div.message,
+tr.message {
+  background-color: #dfd;
+  color: #020;
+}
 /* @end */
 
 /* @group clearfix */

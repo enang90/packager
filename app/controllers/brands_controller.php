@@ -4,6 +4,8 @@ class BrandsController extends AppController {
   var $name = 'Brands';
   var $components = array('Upload', 'Session');
 
+  var $uses = array('User', 'Brand');
+
   function beforeFilter() {
 	  parent::beforeFilter();
 	  $this->Auth->allow('information', 'add');
@@ -14,19 +16,32 @@ class BrandsController extends AppController {
    */
   function information() { 
     if (isset($this->params['requested'])) {
-		  $brand = $this->Session->read('Brand');
-		  if (!$brand) {
-			  $brand = array(
-				  'icon' => 'placeholder.gif',
-				  'name' => 'Goliath Messenger',
-				);
-		  } else {
-			  $brand['icon'] = 'icons/' . $brand['icon'];
-		  }
-		  
-		  $variables = compact('brand');
+	    $brands = array();
+      $brand = $this->Session->read('Brand');
 	
-		  return $variables;	
+	    if ($_user = $this->Auth->user()) {
+        // @todo: generate a list of brands and show them in a form element
+        // @todo: user story if 1 brand v multiple brands v a user
+        $this->User->id = $_user['User']['id'];
+        $data = $this->User->read();
+ 		    $brands = $data['Brand']; // multiple brands
+
+        if ($brand) {
+	        foreach ($brands as $key => $_brand) {
+        		$brands[$key]['active'] = FALSE;
+		        if ($brands[$key]['id'] == $brand['id']) {
+		          $brands[$key]['active'] = TRUE;
+		        }
+	        }
+        }
+	    } else if ($brand) {
+		    $brand['active'] = TRUE;
+    		$brands[] = $brand;
+	    }
+
+		  $variables = compact('brands');
+	
+		  return $variables;
     }
     // If someone goes to /brands/information, redirect to the controller
 	  $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
@@ -37,7 +52,7 @@ class BrandsController extends AppController {
 	 */
 	function add() {
 		if ((!empty($this->data)) && ($this->Brand->validates())) {
-			$auto_login = FALSE;
+			$auto_login = FALSE; // @todo:  change this with _loggedIn property from Auth component
 			
 			// Image handling
 			$destination = realpath('../../app/webroot/img/icons/') . '/';
@@ -72,13 +87,15 @@ class BrandsController extends AppController {
         // @todo add an extra flag to indicate they are a stub?
         $data = array(
 	        'User' => array(
-		        'username' => 'Guest' . Security::hash(Configure::read('Security.salt') . time() . rand(1, 100)),
+		        //'username' => 'Guest' . Security::hash(Configure::read('Security.salt') . time() . rand(1, 100)),
+		        'username' => 'Guest',
 		        'password' => Security::hash(Configure::read('Security.salt') . (time() + 10) . rand(1, 100)),
   		      'email' => '', 
 	  	      'blocked' => 1,
 		      ),
 		    );
-		
+
+        // @todo: use $this->User instead		
         $user = ClassRegistry::init('User');
         $user->create();
         $user->save($data, FALSE);
@@ -97,15 +114,30 @@ class BrandsController extends AppController {
       }
 
       // let's autologin with the stub user
-      if ($auto_login) {
+      /* if ($auto_login) {
         $login = $this->Auth->login($data);
         if ($login) {
 	        $this->redirect($this->Auth->redirect());
         }
-      }
+      } */
 
       // @todo redirect to the actual page they are on instead of defaulting to the dashboard
 			$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
+    }
+	}
+	
+	/**
+	 * Edit a brand
+	 */
+	function edit($id = NULL) {
+		$this->Brand->id = $id;
+    if (empty($this->data)) {
+	    $this->data = $this->Brand->read();
+    } else {
+	    if ($this->Brand->save($this->data)) {
+	      $this->Session->setFlash('Your Brand has been updated');
+	      $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
+	    }
     }
 	}
 }
