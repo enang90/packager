@@ -12,7 +12,7 @@
 		
 		var triggers = $('.modalInput').overlay({
 			left: 0,
-			top: 53,
+			top: 103,
 		  mask: {
 			  color: '#abcde',
 			  loadSpeed: 200,
@@ -30,7 +30,8 @@
 	
 	<div id="container">
 
-		<header>
+		<header class="clearfix">
+			<img src="/img/pandion_thumb.png" alt="Pandion logo" />
       <h1><?php __('Pandion Packager'); ?></h1>
 	
 	  	<?php echo $this->element('brand'); ?>

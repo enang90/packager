@@ -196,7 +196,7 @@ div#brands-widget div.brand span {
 
 div#brands-widget img#brands-select {
   position: absolute;
-  top: 0;
+  top: 95px;
   right: 0;
 }
 /* @end */

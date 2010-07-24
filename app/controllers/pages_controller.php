@@ -30,6 +30,8 @@
  * @link http://book.cakephp.org/view/958/The-Pages-Controller
  */
 class PagesController extends AppController {
+ var $view = 'Theme';
+ var $theme = 'public';
 
 /**
  * Controller name
@@ -54,6 +56,13 @@ class PagesController extends AppController {
  * @access public
  */
 	var $uses = array();
+	
+	
+  function beforeFilter() {
+	  parent::beforeFilter();
+	  $this->Auth->allow('display');
+  }
+
 
 /**
  * Displays a view

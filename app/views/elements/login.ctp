@@ -3,7 +3,7 @@
 	  // @todo move logic to controller (?)
 	  if ($user = $session->read('Auth.User')) :
 	    $login = '';
-	    $username = $user['username'];
+	    $username = $user['first_name'] . ' ' . $user['last_name'];
     else :
       $login = sprintf(__(', please %s', TRUE), $html->link('log in', '/users/login', array('class'=>'button','target'=>'')));
       $username = 'Guest';

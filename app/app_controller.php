@@ -2,19 +2,17 @@
 
 class AppController extends Controller {
   var $components = array('Session', 'Auth');
+	var $publicControllers = array('pages');
 
 	function beforeFilter(){
-    $this->Auth->loginRedirect = array('controller' => 'dashboard', 'action' => 'index');
+    $this->Auth->loginRedirect = array('controller' => 'brands', 'action' => 'index');
+    $this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'display', 'home');
 
-    // Set the last added brand for a user as it's active brand
-    if ($_user = $this->Auth->user()) {
-	    if (!$this->Session->read('Brand')) {
-   	    $user = ClassRegistry::init('User');
-        $user->id = $_user['User']['id'];
-        $data = $user->read();
- 	      $brands = $data['Brand']; // multiple brands
-        $this->Session->write('Brand', array_pop($brands));
-      }
-	  }
+		$this->Auth->userScope = array('User.blocked' => 0);
+    $this->Auth->fields = array('username' => 'email', 'password' => 'password');
+
+		if (in_array(strtolower($this->params['controller']), $this->publicControllers)) {
+			$this->Auth->allow();			 
+    }
   }
 }

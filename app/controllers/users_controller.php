@@ -1,8 +1,10 @@
 <?php
 
 class UsersController extends AppController {
+	var $view = 'Theme';
+	var $theme = 'public';
 	var $name = 'Users';
-	
+  var $components = array('Upload');
 	var $uses = array('User', 'Brand');
 
   function beforeFilter() {
@@ -13,33 +15,26 @@ class UsersController extends AppController {
 	function index() { }
 	
 	/**
-	 * Registers a new user account
+	 * Registers a new user account and their first brand
 	 */
 	function register() {
-		$brand = $this->Session->read('Brand');
-		$this->Brand->id = $brand['id'];
-		$this->Brand->read();
-
-    if (!empty($this->data)) {		
-      $this->User->set($this->data);
-      if ($this->User->validates()) {
-	      $brand = $this->Session->read('Brand');
-	
-	      // reuse the Guest account. Reduce no of stale accounts.
-	      if ($brand) {
-					$this->Brand->id = $brand['id'];
-					$this->Brand->read();
-          $this->User->id = $this->Brand->data['User'][0]['id'];
-      	}
-	      $this->User->save($this->data);
-
-        // auto login: associate a User session with the active brand
-	      $login = $this->Auth->login($this->data);
-        if ($login) {
-	        $this->redirect($this->Auth->redirect());
-        }        
-      }
-    }
+		// A logged in user shouldn't be hitting the register page
+		if ($this->Auth->user()) {
+			$this->redirect(array('controller' => 'brands', 'action' => 'index'));
+		}
+		
+		if (!empty($this->data)) {			
+			// let's register the User
+			$this->User->set($this->data);
+			if ($this->User->validates()) {
+				if ($this->User->save($this->data)) {
+				  $login = $this->Auth->login($this->data);
+	        if ($login) {
+	 	        $this->redirect($this->Auth->redirect());
+		      }
+				}
+			}
+		}
 	}	
 	
 	function login() { }

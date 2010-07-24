@@ -2,11 +2,11 @@
 
 class Brand extends AppModel {
 	var $name = 'Brand';
-	
+
 	/* @todo problem with aphaNumeric validation failing consistently */
 	var $validate = array(
 		'name' => array(
-		/*	'alphaNumeric' => array(
+			/* 'alphaNumeric' => array(
 				'rule' => 'alphaNumeric',
 				'required' => TRUE,
 				'message' => 'Letters and numbers only',
@@ -31,7 +31,7 @@ class Brand extends AppModel {
 			'unique' => TRUE,
 		),
 	);
-	
+		
   /**
    * Validation rule: brandnames must be unique
    */

@@ -1,14 +1,32 @@
 <?php
 
 class BrandsController extends AppController {
+	var $view = 'Theme';
+	var $theme = 'private';
   var $name = 'Brands';
   var $components = array('Upload', 'Session');
-
   var $uses = array('User', 'Brand');
+
+  function index() {
+	
+  }
 
   function beforeFilter() {
 	  parent::beforeFilter();
-	  $this->Auth->allow('information', 'add');
+
+    if ($user = $this->Auth->user()) {
+	    // load the User if logged in.
+	    $this->User->set($user['User']);
+	    $this->User->read();
+
+      // Check if a brand is active. If not. Set the last added brand as active.	    
+	    $active_brand = $this->Session->read('Brand');
+	    if (!$active_brand) {
+		    $active_brand = array_pop($this->User->data['Brand']);
+		    $this->Session->write('Brand', $active_brand);
+	    }
+    }
+
   }
 
   /**
@@ -43,9 +61,10 @@ class BrandsController extends AppController {
 	 * Add a brand new brand
 	 */
 	function add() {
+		$this->set('user_id', $this->User->id);
+		
 		if ((!empty($this->data)) && ($this->Brand->validates())) {
-			$auto_login = FALSE; // @todo:  change this with _loggedIn property from Auth component
-			
+					
 			// Image handling
 			$destination = realpath('../../app/webroot/img/icons/') . '/';
 			$file = $this->data['Brand']['image'];
@@ -71,28 +90,6 @@ class BrandsController extends AppController {
 						exit();
    		}
 
-      $user = $this->Session->read('Auth.User');
-    
-      if (!$user) {
-        // create a new stub user and save the user.
-        // @todo are the username/password random enough?
-        $data = array(
-	        'User' => array(
-		        'username' => 'Guest',
-		        'password' => Security::hash(Configure::read('Security.salt') . (time() + 10) . rand(1, 100)),
-  		      'email' => '', 
-	  	      'blocked' => 1,
-		      ),
-		    );
-		
-        $this->User->create();
-        $this->User->save($data, FALSE);
-
-	      $this->data['User']['id'] = $this->User->id;
-      } else {
-        $this->data['User']['id'] = $user['id'];
-      }
-
       // Save the Brand and return to the dashboard
       if ($this->Brand->save($this->data)) {
 	      $brand = $this->Brand->find("id = '" . $this->Brand->id . "'"); // urgh, extra query...
@@ -113,9 +110,10 @@ class BrandsController extends AppController {
     if (empty($this->data)) {
 	    $this->data = $this->Brand->read();
     } else {
-	    if ($this->Brand->save($this->data)) {
+	    // @todo: upload functionality for icon
+	    if ($this->Brand->save($this->data, FALSE)) {
 	      $this->Session->setFlash('Your Brand has been updated');
-	      $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
+	      $this->redirect(array('controller' => 'brands', 'action' => 'index'));
 	    }
     }
 	}
@@ -133,6 +131,6 @@ class BrandsController extends AppController {
       $this->Session->write('Brand', $data['Brand']);
 	  }
 		
-    $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
+    $this->redirect(array('controller' => 'brands', 'action' => 'index'));
 	}
 }

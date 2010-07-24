@@ -4,20 +4,29 @@ class User extends AppModel {
 	var $name = 'User';
 	
 	var $validate = array(
-		'username' => array(
+		'first_name' => array(
 			'alphaNumeric' => array(
 				'rule' => 'alphaNumeric',
 				'required' => TRUE,
 				'message' => 'Letters and numbers only',
 			),
-		  'usernameUnique' => array(
-			  'rule' => array('uniqueUsername', 'username'),
-			  'message' => 'A user with that username already exists',
-			),
 		),
+		'last_name' => array(
+	  	'alphaNumeric' => array(
+	  		'rule' => 'alphaNumeric',
+  			'required' => TRUE,
+			  'message' => 'Letters and numbers only',
+		  ),
+	  ),
 		'email' => array(
-			'rule' => array('email', FALSE),
-	    'message' => 'Please provide a valid email',
+			'email' => array(
+  			'rule' => array('email', FALSE),
+	      'message' => 'Please provide a valid email',
+	    ),
+  	  'usernameUnique' => array(
+	  	  'rule' => array('uniqueUsername', 'username'),
+		    'message' => 'A user with that username already exists',
+		  ),
 		),
 		'password' => array(
 			'passwordCharacters' => array(
@@ -62,6 +71,7 @@ class User extends AppModel {
     if ($data['password'] == Security::hash(Configure::read('Security.salt') . $this->data['User']['password_confirm'])) {
       $valid = TRUE;
     }
+
     return $valid;
   }
 
@@ -69,21 +79,24 @@ class User extends AppModel {
    * Validation rule: usernames must be unique
    */
   function uniqueUsername($data) {
-    $user = $this->find(array('username' => $data['username']), array('id', 'username'));
+    $user = $this->find(array('email' => $data['email']), array('id', 'email'));
     if ($user) {
 	    return FALSE;
     }
 
     return TRUE;
   }
-	
-/* 	function validateLogin($data) {
-		$user = $this->find(array('username' => $data['username'], 'password' => md5($data['password'])), array('id', 'username'));
 
-    if (empty($user) == FALSE)
-      return $user['User'];
+  /**
+   * Save the Brand before the User. We won't allow Users without at least 1 Brand.
+   */
+  function beforeSave() {
+     $this->Brand->set($this->data['Brand']);
+     if ($this->Brand->validates()) {
+	     $this->Brand->save($this->data['Brand']);
+	     $this->data['Brand']['id'] = $this->Brand->id;
+     }
 
-    return FALSE;
-	} */
-	
+     return TRUE;
+  }
 }
