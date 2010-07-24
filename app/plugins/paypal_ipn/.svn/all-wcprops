@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/46
+END
+paypal_ipn_app_model.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/43/paypal_ipn_app_model.php
+END
+paypal_ipn_app_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/43/paypal_ipn_app_controller.php
+END
+paypal_ipn.sql
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/43/paypal_ipn.sql
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/46/README.txt
+END

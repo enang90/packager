@@ -312,6 +312,26 @@ div.flyer p {
 }
 /* @end */
 
+/* @group brand creation form */
+form#BrandAddForm {
+  width: 500px;
+  margin: 40px auto;
+}
+
+form#BrandAddForm div.input {
+  margin: 0 0 10px;
+}
+
+form#BrandAddForm label {
+  display: block;
+  width: 100px;
+}
+
+form#BrandAddForm input {
+  width: 350px;
+}
+/* @end */
+
 /* @group clearfix */
 
 .clearfix:after {

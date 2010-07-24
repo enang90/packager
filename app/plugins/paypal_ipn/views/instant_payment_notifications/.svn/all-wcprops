@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/43/views/instant_payment_notifications
+END
+admin_edit.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/43/views/instant_payment_notifications/admin_edit.ctp
+END
+admin_index.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/43/views/instant_payment_notifications/admin_index.ctp
+END
+admin_view.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/webtechnick/CakePHP-Paypal-IPN-Plugin/!svn/ver/43/views/instant_payment_notifications/admin_view.ctp
+END
