@@ -21,7 +21,9 @@ class BrandsController extends AppController {
 	    $active_brand = $this->Session->read('Brand');
 	    if (!$active_brand) {
 		    $active_brand = array_pop($this->User->data['Brand']);
-		    $this->Session->write('Brand', $active_brand);
+		    if ($active_brand) {
+  		    $this->Session->write('Brand', $active_brand);
+        }
 	    }
     }
 

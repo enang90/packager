@@ -91,12 +91,14 @@ class User extends AppModel {
    * Save the Brand before the User. We won't allow Users without at least 1 Brand.
    */
   function beforeSave() {
-     $this->Brand->set($this->data['Brand']);
-     if ($this->Brand->validates()) {
-	     $this->Brand->save($this->data['Brand']);
-	     $this->data['Brand']['id'] = $this->Brand->id;
-     }
+	  if (!empty($this->data['Brand']['name'])) {
+      $this->Brand->set($this->data['Brand']);
+      if ($this->Brand->validates()) {
+	      $this->Brand->save($this->data['Brand']);
+	      $this->data['Brand']['id'] = $this->Brand->id;
+      }
+    }
 
-     return TRUE;
+    return TRUE;
   }
 }
