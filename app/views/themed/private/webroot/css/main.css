@@ -178,9 +178,14 @@ div#brands-widget {
   position: relative;
 }
 div#brands-widget,
-div#brands-widget div.brand {
+div#brands-widget div.brand {;
   width: 400px;
 }
+
+div#brands-widget div.brand {
+  margin: 10px 0 0 0;  
+}
+
 div#brands-widget div.brand img {
   float: left;
   margin: 0 10px 0 0;

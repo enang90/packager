@@ -307,6 +307,52 @@ div.flyer p {
 }
 /* @end */
 
+/* @group registration form */
+form#UserRegisterForm {
+  width: 500px;
+  margin: 40px auto;
+}
+
+form#UserRegisterForm div.user-registration,
+form#UserRegisterForm div.brand-registration {
+  margin: 0 0 15px;
+}
+
+form#UserRegisterForm div.input {
+  margin: 0 0 10px;
+}
+
+form#UserRegisterForm label {
+  display: block;
+  width: 100px;
+}
+
+form#UserRegisterForm input {
+  width: 350px;
+}
+/* @end */
+
+/* @group login form */
+form#UserLoginForm {
+  width: 500px;
+  margin: 40px auto;
+}
+
+form#UserLoginForm div.input {
+  margin: 0 0 10px;
+}
+
+form#UserLoginForm label {
+  display: block;
+  width: 100px;
+}
+
+form#UserLoginForm input {
+  width: 350px;
+}
+
+/* @end */
+
 /* @group clearfix */
 
 .clearfix:after {

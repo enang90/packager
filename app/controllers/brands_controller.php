@@ -7,9 +7,7 @@ class BrandsController extends AppController {
   var $components = array('Upload', 'Session');
   var $uses = array('User', 'Brand');
 
-  function index() {
-	
-  }
+  function index() {  }
 
   function beforeFilter() {
 	  parent::beforeFilter();
@@ -64,31 +62,8 @@ class BrandsController extends AppController {
 		$this->set('user_id', $this->User->id);
 		
 		if ((!empty($this->data)) && ($this->Brand->validates())) {
-					
-			// Image handling
-			$destination = realpath('../../app/webroot/img/icons/') . '/';
-			$file = $this->data['Brand']['image'];
- 
-			$ext = $this->Upload->ext($file['name']);
-			$uniquename = md5($this->data['Brand']['image']['name'] . time()) . '.' . $ext; // ensure uniqueness
-
-			$result = $this->Upload->upload($file, $destination, $uniquename, array('type' => 'resizecrop', 'size' => array('50', '50'), 'output' => 'jpg'));
-	
-			if (!$result){
-				$this->data['Brand']['icon'] =  $this->Upload->result;
-			} else {
-				// display error
-				$errors = $this->Upload->errors;
-
-						// piece together errors
-						if (is_array($errors)) {
-              $errors = implode("<br />",$errors); 
-            }
-
-						$this->Session->setFlash($errors);
-						$this->redirect('/brands/add');
-						exit();
-   		}
+			
+			$this->__uploadBrandIcon();
 
       // Save the Brand and return to the dashboard
       if ($this->Brand->save($this->data)) {
@@ -98,7 +73,7 @@ class BrandsController extends AppController {
       }
 
       // @todo redirect to the actual page they are on instead of defaulting to the dashboard
-			$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
+			$this->redirect(array('controller' => 'brands', 'action' => 'index'));
     }
 	}
 	
@@ -110,8 +85,11 @@ class BrandsController extends AppController {
     if (empty($this->data)) {
 	    $this->data = $this->Brand->read();
     } else {
-	    // @todo: upload functionality for icon
+
+    	$this->__uploadBrandIcon();
+
 	    if ($this->Brand->save($this->data, FALSE)) {
+		    $this->Session->write('Brand', $this->Brand->data['Brand']);
 	      $this->Session->setFlash('Your Brand has been updated');
 	      $this->redirect(array('controller' => 'brands', 'action' => 'index'));
 	    }
@@ -132,5 +110,32 @@ class BrandsController extends AppController {
 	  }
 		
     $this->redirect(array('controller' => 'brands', 'action' => 'index'));
+	}
+	
+	function __uploadBrandIcon() {
+		// Image handling
+		$destination = realpath('../../app/webroot/img/icons/') . '/';
+		$file = $this->data['Brand']['image'];
+
+		$ext = $this->Upload->ext($file['name']);
+		$uniquename = md5($this->data['Brand']['image']['name'] . time()) . '.' . $ext; // ensure uniqueness
+
+		$result = $this->Upload->upload($file, $destination, $uniquename, array('type' => 'resizecrop', 'size' => array('50', '50'), 'output' => 'jpg'));
+
+		if (!$result){
+			$this->data['Brand']['icon'] =  $this->Upload->result;
+		} else {
+			// display error
+			$errors = $this->Upload->errors;
+
+			// piece together errors
+			if (is_array($errors)) {
+	      $errors = implode("<br />",$errors); 
+	    }
+
+			$this->Session->setFlash($errors);
+			$this->redirect(array('controller' => 'brands', 'action' => 'index'));
+			exit();
+ 		}		
 	}
 }
