@@ -38,6 +38,11 @@
 	
   	  <?php echo $this->element('login'); ?>
 
+      <?php
+         $brand =  $this->Session->read('Brand');
+         $id = $brand['id'];
+      ?>
+
       <nav>
          <li>Dashboard</li>
          <li>Appcasting</li>

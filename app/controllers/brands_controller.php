@@ -53,7 +53,7 @@ class BrandsController extends AppController {
 		  return $variables;
     }
     // If someone goes to /brands/information, redirect to the controller
-	  $this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
+	  //$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
 	}
 		
 	/**
@@ -66,11 +66,15 @@ class BrandsController extends AppController {
 			
 			$this->__uploadBrandIcon();
 
+      //@todo set the Brand inactive until payment has been received
+
       // Save the Brand and return to the dashboard
       if ($this->Brand->save($this->data)) {
 	      $brand = $this->Brand->find("id = '" . $this->Brand->id . "'"); // urgh, extra query...
 	      $this->Session->write('Brand', $brand['Brand']);
         $this->Session->setFlash('Your brand has been saved');
+
+	      $this->redirect(array('controller' => 'brands', 'action' => 'subscriptions', $this->Brand->id));
       }
 
       // @todo redirect to the actual page they are on instead of defaulting to the dashboard
@@ -78,6 +82,17 @@ class BrandsController extends AppController {
     }
 	}
 	
+	/**
+	 * review/change the subscription plan
+	 */
+	function subscriptions() {
+		$brand = $this->Session->read('Brand');
+		if (!is_null($brand['id'])) {
+			$subscriptions = ClassRegistry::init('Subscription')->find('all');
+      $this->set('subscriptions', $subscriptions);
+		}		
+	}
+		
 	/**
 	 * Edit a brand
 	 */

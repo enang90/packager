@@ -2,6 +2,7 @@
 
 class AppController extends Controller {
   var $components = array('Session', 'Auth');
+  var $helpers = array('PaypalIpn.Paypal', 'Session', 'Html');
 	var $publicControllers = array('pages');
 
 	function beforeFilter(){
@@ -15,4 +16,27 @@ class AppController extends Controller {
 			$this->Auth->allow();			 
     }
   }
+
+  function afterPaypalNotification($txnId){
+    //Here is where you can implement code to apply the transaction to your app.
+    //for example, you could now mark an order as paid, a subscription, or give the user premium access.
+    //retrieve the transaction using the txnId passed and apply whatever logic your site needs.
+      
+    $transaction = ClassRegistry::init('PaypalIpn.InstantPaymentNotification')->findById($txnId);
+    $this->log($transaction['InstantPaymentNotification']['id'], 'paypal');
+  
+    //Tip: be sure to check the payment_status is complete because failure 
+    //     are also saved to your database for review.
+  
+    if($transaction['InstantPaymentNotification']['payment_status'] == 'Completed'){
+       // @todo: if completed, then get Brand id
+       // @todo: fetch Brand based on brand id
+       // @todo: set status Blocked to FALSE (?) or set status active to TRUE
+       // @todo: redirect to brands controller subscription completed page
+       // @todo: check if this is a subscription change or a new subscription
+    }
+    else {
+      //Oh no, better look at this transaction to determine what to do; like email a decline letter.
+    }
+  } 
 }
