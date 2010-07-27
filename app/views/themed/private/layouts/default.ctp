@@ -44,11 +44,11 @@
       ?>
 
       <nav>
-         <li>Dashboard</li>
-         <li>Appcasting</li>
-         <li>Extras</li>
-         <li>Statistics</li>
-         <li>Subscription</li>
+	       <li><?php print $this->Html->link('Dashboard', '/brands'); ?></li>
+	       <li><?php print $this->Html->link('Appcasting', '/brands/appcasting'); ?></li>
+	       <li><?php print $this->Html->link('Extras', '/brands/extras'); ?></li>
+	       <li><?php print $this->Html->link('Statistics', '/brands/statistics'); ?></li>
+	       <li><?php print $this->Html->link('Subscriptions', '/brands/subscriptions'); ?></li>
 	    </nav>
 
     </header>

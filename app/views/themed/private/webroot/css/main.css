@@ -332,6 +332,39 @@ form#BrandAddForm input {
 }
 /* @end */
 
+/* @group subscriptions */
+
+table.subscriptions {
+  font-size: 1.3em;
+  margin: 15px auto;
+  width: 400px;
+}
+
+table.subscriptions tr {
+  background: #eee;
+  height: 2em;
+}
+
+table.subscriptions tr.name {
+  background: #aaa;
+  font-weight: bold;
+  height: 2em;
+}
+
+table.subscriptions tr td {
+  padding: 15px;
+  text-align: center;
+}
+
+table.subscriptions input {
+  background: #aaa;
+  height: 1.5em;
+  font-size: 1.0em;
+  width: 80px;
+}
+
+/* @end */
+
 /* @group clearfix */
 
 .clearfix:after {

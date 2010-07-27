@@ -90,6 +90,7 @@ class BrandsController extends AppController {
 		if (!is_null($brand['id'])) {
 			$subscriptions = ClassRegistry::init('Subscription')->find('all');
       $this->set('subscriptions', $subscriptions);
+      $this->set('brand_id', $brand['id']);
 		}		
 	}
 		
