@@ -31,7 +31,7 @@
 	<div id="container">
 
 		<header>
-      <h1><?php __('Pandion Packager'); ?></h1>
+      <span class="title"><?php __('Pandion Packager'); ?></span>
 	
 	  	<?php echo $this->element('brand'); ?>
 	

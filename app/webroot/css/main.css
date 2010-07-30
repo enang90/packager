@@ -115,7 +115,7 @@ body {
   font: 12px/16px helvetica;
 }
 
-h1 {
+span.title {
   float: left;
   font-size: 2.7em;
   line-height: 2.3;
@@ -291,6 +291,32 @@ tr.message {
   background-color: #dfd;
   color: #020;
 }
+/* @end */
+
+/* @group paypal notifications */
+
+div.instantPaymentNotifications dl {
+  margin: 0 auto;
+  width: 500px;
+}
+
+div.instantPaymentNotifications dl * {
+  padding: 5px;
+}
+
+div.instantPaymentNotifications dl dt {
+  font-weight: bold;
+}
+
+div.instantPaymentNotifications dl dd {
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+div.instantPaymentNotifications dl .altrow {
+  background: #ddd;
+}
+
 /* @end */
 
 /* @group dashboard */

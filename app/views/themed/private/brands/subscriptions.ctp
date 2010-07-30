@@ -12,10 +12,13 @@ $fields = array('name', 'period', 'amount', 'button');
 foreach ($fields as $field) {
 	print "<tr class='$field'>";
 	foreach ($subscriptions as $subscription) {
-		
 		switch ($field) {
       case 'name':
-       	print '<td>' . $subscription['Subscription'][$field] . '</td>';
+        if ($subscription['Subscription']['active']) :
+          print '<td class="active">' . $subscription['Subscription'][$field] . '</td>';
+        else :
+       	  print '<td>' . $subscription['Subscription'][$field] . '</td>';
+        endif;
         break;
       case 'period':
         	print '<td>' . $subscription['Subscription']['period'] . ' ' . $subscription['Subscription']['term'] . '</td>';
@@ -30,6 +33,7 @@ foreach ($fields as $field) {
 			    'amount' => $subscription['Subscription']['amount'],
 			    'term' => $subscription['Subscription']['term'],
 			    'period' => $subscription['Subscription']['period'],
+			    'item_name' => $subscription['Subscription']['id'],
     			'item_number' => $brand_id)) . '</td>';
 		}
 	}

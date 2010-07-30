@@ -89,6 +89,13 @@ class BrandsController extends AppController {
 		$brand = $this->Session->read('Brand');
 		if (!is_null($brand['id'])) {
 			$subscriptions = ClassRegistry::init('Subscription')->find('all');
+			
+			foreach ($subscriptions as $key => $subscription) {
+				$subscriptions[$key]['Subscription']['active'] = FALSE;
+				if ($subscription['Subscription']['id'] == $brand['subscription_id'])
+				  $subscriptions[$key]['Subscription']['active'] = TRUE;
+			}
+
       $this->set('subscriptions', $subscriptions);
       $this->set('brand_id', $brand['id']);
 		}		

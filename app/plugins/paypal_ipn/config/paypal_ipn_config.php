@@ -27,7 +27,7 @@ class PaypalIpnConfig {
   var $testSettings = array(
     'business' => 'matthi_1280070046_biz@colada.be', //'sandbox_email@paypal.com',
     'server' => 'https://www.sandbox.paypal.com',
-    'notify_url' => 'http://packager.pandion.lan/paypal_ipn/process', //'http://www.yoursite.com/paypal_ipn/process',
+    'notify_url' => 'http://94.224.70.81:8888/paypal_ipn/process', //'http://www.yoursite.com/paypal_ipn/process',
     'currency_code' => 'USD',
     'lc' => 'US',
     'item_name' => 'Paypal_IPN',

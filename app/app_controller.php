@@ -29,9 +29,17 @@ class AppController extends Controller {
     //     are also saved to your database for review.
   
     if($transaction['InstantPaymentNotification']['payment_status'] == 'Completed'){
+
        // @todo: if completed, then get Brand id
+       $brand_id = $transaction['InstantPaymentNotification']['item_number'];
+
        // @todo: fetch Brand based on brand id
+       $brand = ClassRegistry::init('PaypalIpn.InstantPaymentNotification')->findById($brand_id);
+
        // @todo: set status Blocked to FALSE (?) or set status active to TRUE
+       $brand->set('subscription_id', $transaction['InstantPaymentNotification']['item_name']);
+       $brand->save();
+
        // @todo: redirect to brands controller subscription completed page
        // @todo: check if this is a subscription change or a new subscription
     }

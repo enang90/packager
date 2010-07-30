@@ -31,6 +31,10 @@ class Brand extends AppModel {
 			'unique' => TRUE,
 		),
 	);
+	
+	/**
+	 * @todo: define a hasmany relationship with subscriptions
+	 */
 		
   /**
    * Validation rule: brandnames must be unique
