@@ -1,5 +1,4 @@
 <?php
-
 class BrandsController extends AppController {
 	var $view = 'Theme';
 	var $theme = 'private';

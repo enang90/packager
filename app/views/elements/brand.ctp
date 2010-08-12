@@ -1,4 +1,5 @@
-<?php 
+
+<?php
   $variables = $this->requestAction('brands/information'); 
   extract($variables);
 ?>

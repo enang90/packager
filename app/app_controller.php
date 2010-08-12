@@ -1,4 +1,21 @@
 <?php
+/**
+ * Pandion Packager
+ * Copyright (C) 2010, Matthias Vandermaesen
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 class AppController extends Controller {
   var $components = array('Session', 'Auth');
@@ -17,6 +34,10 @@ class AppController extends Controller {
     }
   }
 
+  /**
+   * This function is a callback which executes when Paypal IPN hits paypal/process
+   * Logs the transaction and unblocks the brand for appcasting, versioning,...
+   */
   function afterPaypalNotification($txnId){
     //Here is where you can implement code to apply the transaction to your app.
     //for example, you could now mark an order as paid, a subscription, or give the user premium access.
