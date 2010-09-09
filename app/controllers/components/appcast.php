@@ -9,8 +9,9 @@ class AppcastComponent extends Object {
 	var $appTrack = 'stable';
 	
 	function get_appcast_feed() {
+		// @todo: needs some caching?
 	  $dom = new DOMDocument();
-	  $result = $dom->load('http://feeds.feedburner.com/pandionupdates');
+	  $result = @$dom->load('http://feeds.feedburner.com/pandionupdates');
 		 
 	  if ($result) {
 		  $xpath = new DOMXPath($dom);
@@ -34,7 +35,7 @@ class AppcastComponent extends Object {
 	
 	    $items = array();
 	    foreach ($nodes as $key => $node) {
-		    $items[$key]['title'] = $xpath->query('atom:link[@href and @rel="enclosure"]/@title', $node)->item(0)->value;
+		    $items[$key] = $xpath->query('atom:link[@href and @rel="enclosure"]/@title', $node)->item(0)->value;
      	}
 
       return $items;

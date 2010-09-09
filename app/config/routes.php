@@ -33,6 +33,9 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
+/* Reroute versions to Appcasting */
+  Router::connect('/appcasting', array('controller' => 'versions', 'action' => 'index'));
+  Router::connect('/appcasting/add', array('controller' => 'versions', 'action' => 'add'));
 
 /* Paypal IPN plugin */
   Router::connect('/paypal_ipn/process', array('plugin' => 'paypal_ipn', 'controller' => 'instant_payment_notifications', 'action' => 'process'));

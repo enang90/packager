@@ -1,7 +1,7 @@
 
 <?php
-  $variables = $this->requestAction('brands/information'); 
-  extract($variables);
+  $brand = $this->Session->read('Brand');
+  $brands = $user->data['Brand'];
 ?>
 
 <div id="brands-widget">

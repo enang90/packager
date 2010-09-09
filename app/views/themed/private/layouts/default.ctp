@@ -34,18 +34,15 @@
 			<img src="/img/pandion_thumb.png" alt="Pandion logo" />
       <h1><?php __('Pandion Packager'); ?></h1>
 	
-	  	<?php echo $this->element('brand'); ?>
+	    <?php if (isset($user)) : ?>
+  	  	<?php echo $this->element('brand'); ?>
+	    <?php endif; ?>
 	
   	  <?php echo $this->element('login'); ?>
 
-      <?php
-         $brand =  $this->Session->read('Brand');
-         $id = $brand['id'];
-      ?>
-
       <nav>
 	       <li><?php print $this->Html->link('Dashboard', '/brands'); ?></li>
-	       <li><?php print $this->Html->link('Appcasting', '/brands/appcasting'); ?></li>
+	       <li><?php print $this->Html->link('Appcasting', '/appcasting'); ?></li>
 	       <li><?php print $this->Html->link('Extras', '/brands/extras'); ?></li>
 	       <li><?php print $this->Html->link('Statistics', '/brands/statistics'); ?></li>
 	       <li><?php print $this->Html->link('Subscriptions', '/brands/subscriptions'); ?></li>

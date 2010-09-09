@@ -139,6 +139,10 @@ nav {
   width: 950px;
 }
 
+nav.secondary-menu {
+  margin: 10px;
+}
+
 div.content {
   margin: 10px;
   width: 940px;
@@ -259,6 +263,15 @@ nav li {
   padding: 3px;
 }
 
+nav li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+nav li a:visited {
+  border-bottom: 1px solid #fff;
+}
+
 /* @end */
 
 /* @group flash Messages */
@@ -361,6 +374,18 @@ table.subscriptions input {
   height: 1.5em;
   font-size: 1.0em;
   width: 80px;
+}
+
+/* @end */
+
+/* @group add a version */
+
+section#add-version h3 {
+  margin: 0 0 10px 0;
+}
+
+section#add-version fieldset {
+  margin: 0 0 10px 0;
 }
 
 /* @end */

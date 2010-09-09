@@ -32,6 +32,24 @@ class AppController extends Controller {
 		if (in_array(strtolower($this->params['controller']), $this->publicControllers)) {
 			$this->Auth->allow();			 
     }
+
+    if ($user = $this->Auth->user()) {
+	    // load the User if logged in.
+	    $this->User->set($user['User']);
+	    $this->User->read();
+	
+	    // set the user in the brand views
+	    $this->set('user', $this->User);
+
+      // Check if a brand is active. If not. Set the last added brand as active.	    
+	    $active_brand = $this->Session->read('Brand');
+	    if (!$active_brand) {
+		    $active_brand = array_pop($this->User->data['Brand']);
+		    if ($active_brand) {
+  		    $this->Session->write('Brand', $active_brand);
+        }
+	    }
+    }
   }
 
   /**
