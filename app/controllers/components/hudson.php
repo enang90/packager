@@ -46,86 +46,60 @@ echo "</pre>";
     }
   }
 
-  function createJob() {
-	  $url = $this->server . '/createItem?mode=copy&from=BrandMaster&name=Samson'; 
-    $this->_postCurl($url);
+  /**
+   * Create a new Hudson job. Copy from BrandMaster job.
+   * @param string $brand The brand name. Is used as the name of the job. Should be a safe name
+   * @return boolean TRUE if success, FALSE if the job could not be created
+   */
+  function createJob($brand) {
+	  if ($brand) {
+  	  $url = $this->server . "/createItem?mode=copy&from=BrandMaster&name=" . urlencode($brand);
+      return $this->_postCurl($url);
+    }
+
+    return FALSE;
   }
 
-  function buildJob() {
+  /**
+   * Triggers an error: source_zip_file param
+   * Verschil tussen name en name_safe?
+   */
+  function buildJob($data) {
     $url = $this->server . '/job/Goliath/build';
-
-//    $params[] = array('name', 'Client.zip');
- //   $params[] = array('file', '@/Users/matthias/Sites/vhosts/packager.pandion.lan/app/webroot/files/Client.zip');
-
 		
 		$params="json={\"parameter\": 
 		         [
          			{\"name\": \"source_type\", 
-               \"value\": \"official\"}
+               \"value\": \"official\"},
+         			{\"name\": \"source_official_tag\", 
+               \"value\": \"stable\"},
+         			{\"name\": \"source_official_tag\", 
+               \"value\": \"stable\"},
+        			{\"name\": \"source_git_url\", 
+               \"value\": \"\"},
+        			{\"name\": \"version_major\", 
+               \"value\": \"0\"},
+        			{\"name\": \"version_minor\", 
+               \"value\": \"0\"},
+        			{\"name\": \"version_build\", 
+               \"value\": \"2\"},
+        			{\"name\": \"name\", 
+               \"value\": \"Goliath\"},
+        			{\"name\": \"name_safe\", 
+               \"value\": \"Goliath\"},
+        			{\"name\": \"homepage_url\", 
+               \"value\": \"http://netsensei.nl\"},
+        			{\"name\": \"company\", 
+               \"value\": \"test\"},
+        			{\"name\": \"guid\", 
+               \"value\": \"9F661F94-F17F-4F5C-B1C8-2955C85C8FE9\"},
+        			{\"name\": \"support_url\", 
+               \"value\": \"http://netsensei.nl\"},
+         			{\"name\": \"info_url\", 
+                \"value\": \"http://netsensei.nl\"},
              ], \"\": \"\"}";
 
-
-    $this->_postCurl($url, $params);
+    return $this->_postCurl($url, $params);
   }
-	
-	/* function createJob() {
-		App::import('Core', 'HttpSocket');
-		$http = new HttpSocket();
-    $auth = $this->authenticate();
-    $apiCall = $this->server . '/createItem';
-
- 		$result = $http->post($apiCall, array('name' => 'Goliath', 'mode' => 'copy', 'from' => 'BrandMaster'), $auth);
-
-    if ($http->response['status']['code'] != 400) {
-	    return TRUE;
-    }
-
-    return FALSE;
-	} */
-	
-	/* function buildJob() {
-		$this->_postCurl('');
-		
-		 App::import('Core', 'HttpSocket');
-		$http = new HttpSocket();
-    $auth = $this->authenticate();
-    $apiCall = '/job/Goliath/buildWithParameters';
-
-    $body = 'source_type=official';
-    $body .= '&source_official_tag=';
-    
-		// The boundary string is used to identify the different parts of a
-		// multipart http request
-		$boundaryString = 'Next_Part_' . String::uuid();
-
-		// Build the multipart body of the http request
-		$body.= "--$boundaryString\r\n";
-		$body.= "Content-Type: application/zip\r\n";
-		$body.= "Content-Transfer-Encoding: binary\r\n";
-		$body.= "--$boundaryString--\r\n";
-
-    $request = array(
-	    'method' => 'POST',
-	    'uri' => array(
-		    'host' => $this->server,
-		    'path' => $apiCall,
-		  ),
-		  'header' => array(
-		  ),
-		  'auth' => array(
-			  'method' => 'Basic',
-			  'user' => $this->user,
-			  'pass' => $this->pass,
-			),
-			'body' => $body,
-    );
-
-    $http->request($request);
-
-    //$result = $http->post($apiCall, $params, $auth);
-		echo "<pre>";
-			var_dump($http);
-		echo "</pre>";
-	} */
 }
 

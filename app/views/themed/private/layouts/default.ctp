@@ -51,7 +51,17 @@
     </header>
 
     <div class="content">
-	    <?php echo $session->flash(); ?>
+			<div id="messages">
+			<?php
+	     if ($session->check('Message.flash')) $session->flash(); // the standard messages
+	
+       // multiple messages
+			 if ($messages = $session->read('Message.multiFlash')) {
+			   foreach($messages as $k => $v) print $session->flash('multiFlash.' . $k);
+			 }
+			?>
+			</div>
+	
 	    <?php echo $session->flash('auth'); ?>
       <?php echo $content_for_layout ?>
     </div>

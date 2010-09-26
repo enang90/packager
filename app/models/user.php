@@ -6,16 +6,16 @@ class User extends AppModel {
 		'first_name' => array(
 			'alphaNumeric' => array(
 				'rule' => 'alphaNumeric',
-				'required' => TRUE,
 				'message' => 'Letters and numbers only',
 			),
+		  'required' => TRUE,
 		),
 		'last_name' => array(
 	  	'alphaNumeric' => array(
 	  		'rule' => 'alphaNumeric',
-  			'required' => TRUE,
 			  'message' => 'Letters and numbers only',
 		  ),
+  		'required' => TRUE,
 	  ),
 		'email' => array(
 			'email' => array(
@@ -30,7 +30,6 @@ class User extends AppModel {
 		'password' => array(
 			'passwordCharacters' => array(
 				'rule' => 'alphaNumeric',
-				'required' => TRUE,
 			),
 			'passwordLength' => array(
 				'rule' => array('minLength', '8'),
@@ -39,7 +38,8 @@ class User extends AppModel {
 			'passwordConfirmation' => array(
 				'rule' => array('confirmPassword', 'password'),
         'message' => 'Passwords do not match',
-			),	
+			),
+			'required' => TRUE,
 		),
     'password_confirm' => array(
 	    'rule' => 'alphanumeric',

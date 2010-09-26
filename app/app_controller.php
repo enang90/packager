@@ -85,5 +85,19 @@ class AppController extends Controller {
     else {
       //Oh no, better look at this transaction to determine what to do; like email a decline letter.
     }
-  } 
+  }
+
+  /**
+   * Support for stacked messages
+   */
+	function _flash($message, $type = 'message') {
+		$messages = (array)$this->Session->read('Message.multiFlash');
+		$messages[] = array(
+			'message' => $message, 
+			'layout' => 'default', 
+			'element' => 'default',
+			'params' => array('class' => $type),
+		);
+		$this->Session->write('Message.multiFlash', $messages);
+	}
 }

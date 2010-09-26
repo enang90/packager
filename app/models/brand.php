@@ -32,6 +32,18 @@ class Brand extends AppModel {
 	);
 	
 	/**
+	 * Defines a releationship between Brands and versions
+	 * A brand can spawn multiple versions (or Hudson builds)
+	 */
+	var $hasMany = array(
+		'Version' => array(
+			'className' => 'Version',
+			'foreignKey' => 'brand_id',
+			'dependent' => TRUE, // delete versions if brand is deleted
+		),
+	);
+	
+	/**
 	 * @todo: define a hasmany relationship with subscriptions
 	 */
 		
