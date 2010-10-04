@@ -3,14 +3,14 @@ class User extends AppModel {
 	var $name = 'User';
 	
 	var $validate = array(
-		'first_name' => array(
+		/*'first_name' => array(
 			'alphaNumeric' => array(
 				'rule' => 'alphaNumeric',
 				'message' => 'Letters and numbers only',
 			),
 		  'required' => TRUE,
 		),
-		'last_name' => array(
+		 'last_name' => array(
 	  	'alphaNumeric' => array(
 	  		'rule' => 'alphaNumeric',
 			  'message' => 'Letters and numbers only',
@@ -44,7 +44,7 @@ class User extends AppModel {
     'password_confirm' => array(
 	    'rule' => 'alphanumeric',
       'required' => true
-    ),
+    ), */
 	);
 	
 	/**
