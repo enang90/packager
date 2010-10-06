@@ -18,7 +18,7 @@
  */
 
 class AppController extends Controller {
-  var $components = array('Session', 'Auth');
+  var $components = array('Session', 'Auth',);
   var $helpers = array('PaypalIpn.Paypal', 'Session', 'Html');
 	var $publicControllers = array('pages');
 
@@ -35,6 +35,7 @@ class AppController extends Controller {
 
     if ($user = $this->Auth->user()) {
 	    // load the User if logged in.
+      $this->User =	ClassRegistry::init('User');
 	    $this->User->set($user['User']);
 	    $this->User->read();
 	
