@@ -46,6 +46,7 @@ class BrandsController extends AppController {
 		if (!is_null($brand['id'])) {
 			$subscriptions = ClassRegistry::init('Subscription')->find('all');
 			
+			// @todo: fix handling of subscriptons to match data model
 			foreach ($subscriptions as $key => $subscription) {
 				$subscriptions[$key]['Subscription']['active'] = FALSE;
 				if ($subscription['Subscription']['id'] == $brand['subscription_id'])
@@ -91,6 +92,10 @@ class BrandsController extends AppController {
 		
     $this->redirect(array('controller' => 'brands', 'action' => 'index'));
 	}
+	
+	function extras() { }
+	
+	function statistics() { }
 	
 	function __uploadBrandIcon() {
 		// Image handling
