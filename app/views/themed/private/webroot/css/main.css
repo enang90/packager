@@ -135,12 +135,11 @@ header {
 }
 
 nav {
-  margin: 0 10px;
   width: 950px;
 }
 
 nav.secondary-menu {
-  margin: 10px;
+  margin: 10px 0;
 }
 
 div.content {
@@ -386,6 +385,16 @@ section#add-version h3 {
 
 section#add-version fieldset {
   margin: 0 0 10px 0;
+}
+
+section#add-version div.form-item {
+  margin-bottom: 1em;
+}
+section#add-version div.form-item label {
+}
+section#add-version div.form-item small {
+  display: block;
+  font-size: 0.9em;
 }
 
 /* @end */
