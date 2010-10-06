@@ -5,6 +5,7 @@ define('HUDSON_PENDING', 0);
 class VersionsController extends AppController {
 	var $view = 'Theme';
 	var $theme = 'private';
+	var $layout = 'versions';
   var $name = 'Versions';
   var $components = array('Session', 'Appcast', 'Hudson');
   var $uses = array('User', 'Brand', 'Version');
