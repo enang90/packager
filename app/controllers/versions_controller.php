@@ -11,9 +11,23 @@ class VersionsController extends AppController {
   var $uses = array('User', 'Brand', 'Version');
 
   function index() {
-	
   }
 
+  function archive() {
+    $brand = $this->Session->read('Brand');
+	  $conditions = array('Version.brand_id' => $brand['id']);
+	  $this->set('versions', $this->Version->find('all', array('conditions' => $conditions)));
+    $this->set('brand', $brand);
+  }
+
+  /**
+   * Adds a version to the brand and triggers a build
+   * 
+   * This function checks if a corresponding Hudson job exists. If not, a job is
+   * created. If the job exists/is created, it will be triggered to build a version.
+   * The build/version is also logged in the Db as a version. The status of the job
+   * is tracked in the model.
+   */
   function add() {
     $versions = $this->Appcast->get_appcast_feed();
     $this->set('versions', $versions);

@@ -19,7 +19,7 @@
 
 class AppController extends Controller {
   var $components = array('Session', 'Auth',);
-  var $helpers = array('PaypalIpn.Paypal', 'Session', 'Html');
+  var $helpers = array('PaypalIpn.Paypal', 'Session', 'Html', 'Time', 'Ajax');
 	var $publicControllers = array('pages');
 
 	function beforeFilter(){
