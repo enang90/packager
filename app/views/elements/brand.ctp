@@ -27,7 +27,11 @@
 <div id="brands-selector" class="modal">
 	<?php foreach ($brands as $brand) : ?>
 			<div class="brand clearfix">
-  		  <?php echo $html->image('icons/' . $brand['icon']); ?>
+        <?php if (!empty($brand['icon'])) : ?>
+  		    <?php echo $html->image('icons/' . $brand['icon']); ?>
+        <?php else : ?>
+       	  <?php echo $html->image('placeholder.gif'); ?>
+        <?php endif; ?>
     	  <h2><?php echo $brand['name']; ?></h2>
       	<span><?php echo $html->link('Edit this brand', array('controller' => 'brands', 'action' => 'edit', $brand['id'])); ?></span>
       	<span><?php echo $html->link('Switch to this brand', array('controller' => 'brands', 'action' => 'switchBrand', $brand['id'])); ?></span>
