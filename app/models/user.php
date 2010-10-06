@@ -3,22 +3,26 @@ class User extends AppModel {
 	var $name = 'User';
 	
 	var $validate = array(
-		/*'first_name' => array(
+		'first_name' => array(
 			'alphaNumeric' => array(
-				'rule' => 'alphaNumeric',
+				'allowEmpty' => FALSE,
+    		'required' => TRUE,
+				'rule' => array('alphaNumeric'),
 				'message' => 'Letters and numbers only',
 			),
-		  'required' => TRUE,
 		),
-		 'last_name' => array(
+		'last_name' => array(
 	  	'alphaNumeric' => array(
-	  		'rule' => 'alphaNumeric',
-			  'message' => 'Letters and numbers only',
+				'allowEmpty' => FALSE,
+    		'required' => TRUE,
+				'rule' => array('alphaNumeric'),
+				'message' => 'Letters and numbers only',
 		  ),
-  		'required' => TRUE,
 	  ),
 		'email' => array(
 			'email' => array(
+				'allowEmpty' => FALSE,
+    		'required' => TRUE,
   			'rule' => array('email', FALSE),
 	      'message' => 'Please provide a valid email',
 	    ),
@@ -27,9 +31,11 @@ class User extends AppModel {
 		    'message' => 'A user with that username already exists',
 		  ),
 		),
-		'password' => array(
+   	'password' => array(
 			'passwordCharacters' => array(
-				'rule' => 'alphaNumeric',
+				'allowEmpty' => FALSE,
+    		'required' => TRUE,
+				'rule' => array('alphaNumeric'),
 			),
 			'passwordLength' => array(
 				'rule' => array('minLength', '8'),
@@ -39,12 +45,11 @@ class User extends AppModel {
 				'rule' => array('confirmPassword', 'password'),
         'message' => 'Passwords do not match',
 			),
-			'required' => TRUE,
 		),
     'password_confirm' => array(
 	    'rule' => 'alphanumeric',
       'required' => true
-    ), */
+    ),
 	);
 	
 	/**
