@@ -42,19 +42,20 @@ class VersionsController extends AppController {
 
       if ($this->Version->saveAll($this->data)) {
         $this->_flash(sprintf(__('Your version has been recorded.', TRUE)), 'hudson');
-       // $brand = $this->Version->Brand->read();
+        $version = $this->Version->read();
 
         // Create a Hudson job if it's the first time we get here.
-//        if (!$brand['Brand']['job_created']) {
-//         if ($this->Hudson->createJob($brand['Brand']['name'])) {
+        if (!$version['Brand']['job_created']) {
+          if ($this->Hudson->createJob($version['Brand']['name'])) {
 	          $this->Version->Brand->set(array('job_created' => 1));
-           	$this->Version->Brand->save();
+            $this->Version->Brand->save();
             $this->_flash(sprintf(__('A new job named %s was created', TRUE), $brand['Brand']['name']), 'hudson');
-  //        }
-  //      } else {
-	  //      pr($this->Version->read());
-      //  }
-      }
+          }
+        }
+
+        // let's start a new build
+        $this->Hudson->buildJob($version['Brand']['name'], $version['Version']);
+      } 
 	  }
   }
 }

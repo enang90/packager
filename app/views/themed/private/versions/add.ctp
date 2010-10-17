@@ -1,10 +1,8 @@
-<section id="add-version">
-
 	<h2><?php __('Create a new version'); ?></h2>
 	
-	<?php echo $this->Form->create('Version', array('type' => 'file')); ?>
+	  <?php echo $this->Form->create('Version', array('type' => 'file')); ?>
 	
-	<?php echo $this->Form->input('Brand.id', array('type' => 'hidden', 'value' => $brand_id))?>
+  	<?php echo $this->Form->input('brand_id', array('type' => 'hidden', 'value' => $brand_id))?>
 
     <fieldset>
     	<h3><?php __('Step 1: source code'); ?></h3>
@@ -63,4 +61,3 @@
   </fieldset>	
 
   <?php	echo $this->Form->end('Build version'); ?>
-</section>

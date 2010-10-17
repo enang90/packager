@@ -1,15 +1,17 @@
 <?php
+// @todo create doc for this class
 class Brand extends AppModel {
 	var $name = 'Brand';
 
-	/* @todo problem with aphaNumeric validation failing consistently */
+	/* @todo do I really need a brand safe name for Hudson? */
 	var $validate = array(
 		'name' => array(
-			/* 'alphaNumeric' => array(
-				'rule' => 'alphaNumeric',
-				'required' => TRUE,
-				'message' => 'Letters and numbers only',
-			), */
+			'alphaNumeric' => array(
+				'allowEmpty' => FALSE,
+		  	'required' => TRUE,
+				'rule' => array('alphaNumeric'),
+		    'message' => 'Letters and numbers only',
+    	),
 			'uniqueBrandname' => array(
 				'rule' => array('unqiueBrandname', 'name'),
 				'message' => 'Your brand name already exists. PLease choose another name.',

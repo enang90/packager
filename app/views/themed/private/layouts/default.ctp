@@ -43,8 +43,6 @@
       <nav>
 	       <li><?php print $this->Html->link('Dashboard', '/brands'); ?></li>
 	       <li><?php print $this->Html->link('Appcasting', '/appcasting'); ?></li>
-	       <li><?php print $this->Html->link('Extras', '/brands/extras'); ?></li>
-	       <li><?php print $this->Html->link('Statistics', '/brands/statistics'); ?></li>
 	       <li><?php print $this->Html->link('Subscriptions', '/brands/subscriptions'); ?></li>
 	    </nav>
 

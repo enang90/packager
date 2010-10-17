@@ -1,4 +1,5 @@
 <?php
+// @todo create doc for this class
 class User extends AppModel {
 	var $name = 'User';
 	

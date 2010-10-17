@@ -51,9 +51,9 @@ echo "</pre>";
    * @param string $brand The brand name. Is used as the name of the job. Should be a safe name
    * @return boolean TRUE if success, FALSE if the job could not be created
    */
-  function createJob($brand) {
-	  if ($brand) {
-  	  $url = $this->server . "/createItem?mode=copy&from=BrandMaster&name=" . urlencode($brand);
+  function createJob($brand_name) {
+	  if ($brand_name) {
+  	  $url = $this->server . "/createItem?mode=copy&from=BrandMaster&name=" . urlencode($brand_name);
       return $this->_postCurl($url);
     }
 
@@ -64,41 +64,64 @@ echo "</pre>";
    * Triggers an error: source_zip_file param
    * Verschil tussen name en name_safe?
    */
-  function buildJob($data) {
-    $url = $this->server . '/job/Goliath/build';
-		
+  function buildJob($jobname, $data) {
+    $url = $this->server . "/job/$jobname/build";
+   
+    switch ($data['source_type']) {
+	    case 0:
+	      $source_type = 'official';
+	      break;
+	    case 1:
+	      $source_type = 'upload';
+	      break;
+	    case 2:
+	      $source_type = 'git';
+	      break;
+    }
+
+    switch ($data['source_offical_tag']) {
+	    case 0:
+	      $source_official_tag = 'stable';
+	      break;
+	    case 1:
+	      $source_official_tag = 'beta';
+	      break;
+	    case 2:
+	      $source_official_tag = 'development';
+	      break;
+    }
+
+		pr($url);
 		$params="json={\"parameter\": 
 		         [
          			{\"name\": \"source_type\", 
-               \"value\": \"official\"},
+               \"value\": \"" . $source_type . "\"},
          			{\"name\": \"source_official_tag\", 
-               \"value\": \"stable\"},
-         			{\"name\": \"source_official_tag\", 
-               \"value\": \"stable\"},
+               \"value\": \"" . $source_official_tag . "\"},
         			{\"name\": \"source_git_url\", 
                \"value\": \"\"},
         			{\"name\": \"version_major\", 
-               \"value\": \"0\"},
+               \"value\": \"" . $data['version_major'] . "\"},
         			{\"name\": \"version_minor\", 
-               \"value\": \"0\"},
+               \"value\": \"" . $data['version_minor'] . "\"},
         			{\"name\": \"version_build\", 
-               \"value\": \"2\"},
+               \"value\": \"" . $data['version_build'] . "\"},
         			{\"name\": \"name\", 
-               \"value\": \"Goliath\"},
+               \"value\": \"" . $data['name'] . "\"},
         			{\"name\": \"name_safe\", 
-               \"value\": \"Goliath\"},
+               \"value\": \"" . $data['name_safe'] . "\"},
         			{\"name\": \"homepage_url\", 
-               \"value\": \"http://netsensei.nl\"},
+               \"value\": \"" . $data['homepage_url'] . "\"},
         			{\"name\": \"company\", 
-               \"value\": \"test\"},
+               \"value\": \"" . $data['company'] . "\"},
         			{\"name\": \"guid\", 
                \"value\": \"9F661F94-F17F-4F5C-B1C8-2955C85C8FE9\"},
         			{\"name\": \"support_url\", 
-               \"value\": \"http://netsensei.nl\"},
+               \"value\": \"" . $data['support_url'] . "\"},
          			{\"name\": \"info_url\", 
-                \"value\": \"http://netsensei.nl\"},
+               \"value\": \"" . $data['info_url'] . "\"},
              ], \"\": \"\"}";
-
+pr($params);
     return $this->_postCurl($url, $params);
   }
 }
