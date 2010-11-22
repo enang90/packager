@@ -79,7 +79,7 @@ echo "</pre>";
 	      break;
     }
 
-    switch ($data['source_offical_tag']) {
+    switch ($data['source_official_tag']) {
 	    case 0:
 	      $source_official_tag = 'stable';
 	      break;
@@ -94,6 +94,8 @@ echo "</pre>";
 		pr($url);
 		$params="json={\"parameter\": 
 		         [
+         			{\"name\": \"packager_token\", 
+               \"value\": \"" . $data['packager_token'] . "\"},
          			{\"name\": \"source_type\", 
                \"value\": \"" . $source_type . "\"},
          			{\"name\": \"source_official_tag\", 

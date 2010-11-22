@@ -76,7 +76,7 @@ class Version extends AppModel {
     		'rule' => 'url',
 	    ),
 	  ),
-	  'version_major' => array(
+		'version_major' => array(
 			'allowEmpty' => array(
 				'allowEmpty' => FALSE,
 				'required' => TRUE,
@@ -86,9 +86,9 @@ class Version extends AppModel {
 				'rule' => array('numeric'),
 				'message' => 'This field can only contain numbers',
 			),
-			/* 'uniqueVersion' => array(
+			'uniqueVersion' => array(
 				'rule' => array('uniqueVersion', 'major'),
-			), */
+			),
 			'notZero' => array(
 				'rule' => array('comparison', '>', 0),
 			),
@@ -103,9 +103,9 @@ class Version extends AppModel {
 				'rule' => array('numeric'),
 				'message' => 'This field can only contain numbers',
 			),
-  		/* 'uniqueVersion' => array(
-	  		'rule' => array('uniqueVersion', 'major'),
-		  ), */
+			'uniqueVersion' => array(
+	  		'rule' => array('uniqueVersion', 'minor'),
+		  ),
 		),
 	  'version_build' => array(
 			'allowEmpty' => array(
@@ -117,33 +117,39 @@ class Version extends AppModel {
 				'rule' => array('numeric'),
 				'message' => 'This field can only contain numbers',
 			),
-		/* 'uniqueVersion' => array(
-			'rule' => array('uniqueVersion', 'major'),
-		), */
-	  ),
-	);
+			'uniqueVersion' => array(
+	  		'rule' => array('uniqueVersion', 'build'),
+	    ),
+		),
+  );
 
 	/**
-	 * Validation rule: usernames must be unique
+	 * Validation rule: compare versions. A version number should always be larger then the previous largest
 	 */
 	function uniqueVersion($data, $version = 'major') {
-    switch ($version) {
-	    default:
-	    case 'major':
-	      $field = 'version_major';
-	      break;
-	    case 'minor':
-	      $field = 'version_minor';
-	      break;
-	    case 'build':
-	      $field = 'version_build';
-	      break;
-    }
-		$maxversion = $this->findAllByBrandId($this->data['Version']['brand_id'], array('MAX(' . $field . ') AS version_max'));
-		if ($maxversion[0][0]['version_max'] >= $data[$field]) {
-			return FALSE;
-		}
+		static $maxversion;
+		static $skip;
+	
+	  if (is_null($skip)) {		
+		  if (!$maxversion) {
+	  	  $maxversion = $this->findAllByBrandId($this->data['Version']['brand_id'], array('version_major, version_minor, version_build'), array('version_major DESC'), '0, 1');
+	      if (empty($maxversion)) {
+		      return TRUE; // no version yet added
+	      }
 
-	  return TRUE;
+	      $maxversion = implode('.', $maxversion[0]['Version']);
+	    }
+	
+		  $form_version = implode('.', array($this->data['Version']['version_major'], $this->data['Version']['version_minor'], $this->data['Version']['version_build']));
+	
+		  if (version_compare($form_version, $maxversion, '<=')) {
+	      $skip = FALSE;
+	      return $skip;
+		  }
+	
+		  $skip = TRUE;
+		}
+		
+		return $skip;
 	}
 }

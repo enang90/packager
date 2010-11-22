@@ -39,6 +39,7 @@ class VersionsController extends AppController {
 		  $messages = array();
 		  $this->data['Version']['inittime'] = date('U'); // now
 		  $this->data['Version']['status'] = HUDSON_PENDING;
+		  $this->data['Version']['packager_token'] = md5(mt_rand());
 
       if ($this->Version->saveAll($this->data)) {
         $this->_flash(sprintf(__('Your version has been recorded.', TRUE)), 'hudson');
@@ -49,12 +50,12 @@ class VersionsController extends AppController {
           if ($this->Hudson->createJob($version['Brand']['name'])) {
 	          $this->Version->Brand->set(array('job_created' => 1));
             $this->Version->Brand->save();
-            $this->_flash(sprintf(__('A new job named %s was created', TRUE), $brand['Brand']['name']), 'hudson');
+            $this->_flash(sprintf(__('A new job named %s was created', TRUE), $version['Brand']['name']), 'hudson');
           }
-        }
+        } 
 
         // let's start a new build
-        $this->Hudson->buildJob($version['Brand']['name'], $version['Version']);
+        // $this->Hudson->buildJob($version['Brand']['name'], $version['Version']);
       } 
 	  }
   }
