@@ -1,8 +1,5 @@
 <?php
 
-define('HUDSON_PENDING', 0);
-define('HUDSON_NOTIFIED', 1);
-
 class VersionsController extends AppController {
 	var $view = 'Theme';
 	var $theme = 'private';
@@ -44,7 +41,7 @@ class VersionsController extends AppController {
 	  if (!empty($this->data)) {
 		  $messages = array();
 		  $this->data['Version']['inittime'] = date('U'); // now
-		  $this->data['Version']['status'] = HUDSON_PENDING;
+		  $this->data['Version']['status'] = 0;
 		  $this->data['Version']['packager_token'] = md5(mt_rand());
 
       if ($this->Version->saveAll($this->data)) {
@@ -55,7 +52,7 @@ class VersionsController extends AppController {
         if (!$version['Brand']['job_created']) {
           if ($this->Hudson->createJob($version['Brand']['name'])) {
 	          $this->Version->Brand->set(array('job_created' => 1));
-            $this->Version->Brand->save();
+            $this->Version->Brand->save(NULL, FALSE);
             $this->_flash(sprintf(__('A new job named %s was created', TRUE), $version['Brand']['name']), 'hudson');
           }
         } 
@@ -91,7 +88,7 @@ class VersionsController extends AppController {
 		      $this->Version->set(
 			      array(
 				      'hudson_id' => $hudson_build_id,
-				      'status' => HUDSON_NOTIFIED,
+				      'status' => 1,
 				    )
 			    );
 		      if ($this->Version->save(NULL, FALSE)) {

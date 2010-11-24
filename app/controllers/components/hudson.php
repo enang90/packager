@@ -5,23 +5,20 @@ class HudsonComponent extends Object {
 	private $user = 'netsensei';
 	private $pass = 'ciaqIEBrl11Oe7Ri';
 	private $server = 'http://hudson.packager.pandion.im:8080';
+	private $data;
+	private $status;
 
   private function _postCurl($url, $params = array()) {
 	  //init cURL
 	  $ch = curl_init();
 	
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC ) ;
-		curl_setopt($ch, CURLOPT_HEADER, true); 
+		curl_setopt($ch, CURLOPT_HEADER, FALSE); 
 		curl_setopt($ch, CURLOPT_USERPWD, $this->user . ':' . $this->pass);
    	curl_setopt($ch, CURLOPT_URL, $url);
 	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
    	curl_setopt($ch, CURLOPT_POST, TRUE); 
-echo "<pre>";
-	var_dump($url);
-echo "</pre>";
-echo "<pre>";
-	var_dump($params);
-echo "</pre>";
+
     if (!empty($params)) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
     }
@@ -31,12 +28,8 @@ echo "</pre>";
 
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-echo "<pre>";
-	var_dump($data);
-echo "</pre>";
-echo "<pre>";
-	var_dump($status);
-echo "</pre>";
+    $this->data = $data;
+    $this->status = $status;
 
     // result return 200, 302 for OK, 400, 500 for BAD
     if ($status == 200 || $status == 302) {
@@ -44,6 +37,20 @@ echo "</pre>";
     } else {
       return false;
     }
+  }
+
+  /**
+   * Return the data of the last executed call if set
+   */
+  function getData() {
+	  return $this->data;
+  }
+
+  /**
+   * Return the status of the last executed call if set
+   */
+  function getStatus() {
+	  return $this->status;
   }
 
   /**
@@ -126,9 +133,9 @@ echo "</pre>";
     return $this->_postCurl($url, $params);
   }
 
-  function buildStatus() {
-	  $args = func_get_args();
-    pr($args);
+  function buildStatus($jobname, $id) {
+    $url = $this->server . "/job/$jobname/$id/api/xml";
+    return $this->_postCurl($url);
   }
 }
 
