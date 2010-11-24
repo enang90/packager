@@ -7,8 +7,13 @@ class VersionsController extends AppController {
 	var $theme = 'private';
 	var $layout = 'versions';
   var $name = 'Versions';
-  var $components = array('Session', 'Appcast', 'Hudson');
+  var $components = array('Session', 'Appcast', 'Hudson', 'RequestHandler');
   var $uses = array('User', 'Brand', 'Version');
+
+  function beforeFilter() {
+	  parent::beforeFilter();
+	  $this->Auth->allow('hudson');
+  } 
 
   function index() {
   }
@@ -55,8 +60,41 @@ class VersionsController extends AppController {
         } 
 
         // let's start a new build
-        // $this->Hudson->buildJob($version['Brand']['name'], $version['Version']);
+        $this->Hudson->buildJob($version['Brand']['name'], $version['Version']);
       } 
+	  }
+  }
+
+  /**
+   * Hudson API call. Allows Hudson to check in with an update about the build.
+   * Hudson should make a POST call to the path '/hudson'.
+   * The POST object should be in this form:
+   *
+   *   data[packager_token]=value&data[job_name]=value&data[build_number]=value
+   *
+   * The Packager will process this through $this->data and make the necessary changes to the job.
+   * A version which has received a notification from Hudson will be pollable by the Packager henceforworth
+   */
+  function hudson() {
+	  if (!empty($this->data)) {
+		  $packager_token = $this->data['packager_token'];
+		  $hudson_build_id = $this->data['build_number'];
+		 
+		  if ($version = $this->Version->findByPackagerToken($packager_token)) {
+	      $this->Version->read(NULL, $version['Version']['id']);
+	      $this->Version->set(array(
+        		'hudson_id' => $hudson_build_id,
+		      )
+		    );
+		    $this->Version->save();
+		    $this->set(compact('version'));
+		  } else {
+ 		 	  $error = "Version does not exist with packager";
+  			$this->set(compact('error'));
+  		}
+	  } else {
+		  $error = "POST data not present";
+			$this->set(compact('error'));  
 	  }
   }
 }

@@ -91,7 +91,6 @@ echo "</pre>";
 	      break;
     }
 
-		pr($url);
 		$params="json={\"parameter\": 
 		         [
          			{\"name\": \"packager_token\", 
@@ -123,8 +122,13 @@ echo "</pre>";
          			{\"name\": \"info_url\", 
                \"value\": \"" . $data['info_url'] . "\"},
              ], \"\": \"\"}";
-pr($params);
+
     return $this->_postCurl($url, $params);
+  }
+
+  function buildStatus() {
+	  $args = func_get_args();
+    pr($args);
   }
 }
 

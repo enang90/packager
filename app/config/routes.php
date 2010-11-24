@@ -48,3 +48,6 @@
   Router::connect('/paypal_ipn/add', array('admin' => true, 'plugin' => 'paypal_ipn', 'controller' => 'instant_payment_notifications', 'action' => 'edit'));
   Router::connect('/paypal_ipn', array('admin' => true, 'plugin' => 'paypal_ipn', 'controller' => 'instant_payment_notifications', 'action' => 'index'));/*
 /* End Paypal IPN plugin */
+
+ Router::connect('/versions/hudson', array('controller' => 'versions', 'action' => 'hudson', '[method]' => 'POST'));
+ Router::parseExtensions();
