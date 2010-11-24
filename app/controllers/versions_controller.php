@@ -1,6 +1,7 @@
 <?php
 
 define('HUDSON_PENDING', 0);
+define('HUDSON_NOTIFIED', 1);
 
 class VersionsController extends AppController {
 	var $view = 'Theme';
@@ -87,7 +88,13 @@ class VersionsController extends AppController {
 	  			$this->set(compact('status', 'message'));
 			  } else {
 		      $this->Version->read(NULL, $version['Version']['id']);
-		      if ($this->Version->saveField('hudson_id', $hudson_build_id)) {
+		      $this->Version->set(
+			      array(
+				      'hudson_id' => $hudson_build_id,
+				      'status' => HUDSON_NOTIFIED,
+				    )
+			    );
+		      if ($this->Version->save(NULL, FALSE)) {
 			      $version = $this->Version->read();
 			      $status = 1;
 			      $message = "Succesfully notified the packager";
