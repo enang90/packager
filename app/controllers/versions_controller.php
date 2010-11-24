@@ -67,10 +67,11 @@ class VersionsController extends AppController {
 
   /**
    * Hudson API call. Allows Hudson to check in with an update about the build.
-   * Hudson should make a POST call to the path '/hudson'.
+   * Hudson should make a POST call to the path '/versions/hudson.xml'.
    * The POST object should be in this form:
    *
-   *   data[packager_token]=value&data[job_name]=value&data[build_number]=value
+   *   data[packager_token]=value
+   *   data[build_number]=value
    *
    * The Packager will process this through $this->data and make the necessary changes to the job.
    * A version which has received a notification from Hudson will be pollable by the Packager henceforworth
@@ -79,18 +80,28 @@ class VersionsController extends AppController {
 	  if (!empty($this->data)) {
 		  $packager_token = $this->data['packager_token'];
 		  $hudson_build_id = $this->data['build_number'];
-		 
 		  if ($version = $this->Version->findByPackagerToken($packager_token)) {
-	      $this->Version->read(NULL, $version['Version']['id']);
-	      $this->Version->set(array(
-        		'hudson_id' => $hudson_build_id,
-		      )
-		    );
-		    $this->Version->save();
-		    $this->set(compact('version'));
+			  if ($version['Version']['hudson_id'] > 0) {
+				  $status = 0;
+	 		 	  $message = "Version was already registered.";
+	  			$this->set(compact('status', 'message'));
+			  } else {
+		      $this->Version->read(NULL, $version['Version']['id']);
+		      if ($this->Version->saveField('hudson_id', $hudson_build_id)) {
+			      $version = $this->Version->read();
+			      $status = 1;
+			      $message = "Succesfully notified the packager";
+	       		$this->set(compact('version', 'message', 'status'));
+		      } else {
+					  $status = 0;
+		 		 	  $message = "Could not save the field.";
+		  			$this->set(compact('status', 'message'));
+		      }				
+			  }
 		  } else {
- 		 	  $error = "Version does not exist with packager";
-  			$this->set(compact('error'));
+			  $status = 0;
+ 		 	  $message = "Version does not exist with packager";
+  			$this->set(compact('status', 'message'));
   		}
 	  } else {
 		  $error = "POST data not present";

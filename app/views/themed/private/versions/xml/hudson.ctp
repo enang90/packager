@@ -1,9 +1,20 @@
-<?php if (isset($error)) :?>
-<error>
-	<?php print $error; ?>
-</error>
-<?php endif; ?>
-
-<?php if (isset($version)) : ?>
-	<?php $xml->serialize($version); ?>
-<?php endif; ?>
+<response>
+  <?php if (!$status) : ?>
+  <status>
+	  <?php print $status; ?>
+	</status>
+	<message>
+  	<?php print $message; ?>
+  </message>
+  <?php else : ?>
+	<status>
+		<?php print $status; ?>
+	</status>
+	<message>
+		<?php print $message; ?>
+	</message>
+	<object>
+	<?php print $xml->serialize($version); ?>
+	</object>
+  <?php endif; ?>
+</response>
