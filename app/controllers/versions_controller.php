@@ -41,7 +41,7 @@ class VersionsController extends AppController {
 	  if (!empty($this->data)) {
 		  $messages = array();
 		  $this->data['Version']['inittime'] = date('U'); // now
-		  $this->data['Version']['status'] = 0;
+		  $this->data['Version']['status'] = PACKAGER_VERSION_INIT;
 		  $this->data['Version']['packager_token'] = md5(mt_rand());
 
       if ($this->Version->saveAll($this->data)) {
@@ -88,7 +88,7 @@ class VersionsController extends AppController {
 		      $this->Version->set(
 			      array(
 				      'hudson_id' => $hudson_build_id,
-				      'status' => 1,
+				      'status' => PACKAGER_VERSION_NOTIFIED,
 				    )
 			    );
 		      if ($this->Version->save(NULL, FALSE)) {
@@ -107,9 +107,10 @@ class VersionsController extends AppController {
  		 	  $message = "Version does not exist with packager";
   			$this->set(compact('status', 'message'));
   		}
+      $this->log("Version #" . $version['Version']['hudson_id'] . " :: $message", 'packager');
 	  } else {
-		  $error = "POST data not present";
-			$this->set(compact('error'));  
+		  $message = "POST data not present";
+			$this->set(compact('message'));  
 	  }
   }
 }

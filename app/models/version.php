@@ -1,4 +1,12 @@
 <?php
+
+define('PACKAGER_VERSION_INIT', 0);
+define('PACKAGER_VERSION_NOTIFIED', 1);
+define('PACKAGER_VERSION_PENDING', 2);
+define('PACKAGER_VERSION_SUCCESS', 3);
+define('PACKAGER_VERSION_FAILURE', 4);
+define('PACKAGER_VERSION_TIMEOUT', 5);
+
 // @todo create doc for this class
 class Version extends AppModel {
 	var $name = 'Version';
