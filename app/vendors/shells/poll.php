@@ -31,18 +31,16 @@ class PollShell extends Shell {
         }
 			}
 			
-			// @todo: notification fails TIME OUT > NOTIFIED (why?)
-			
 			// Check version with status PENDING for it's build status
 			if ($version['Version']['status'] == PACKAGER_VERSION_NOTIFIED) {
   		  if ($this->Hudson->buildStatus($version['Brand']['name'], $version['Version']['hudson_id'])) {
 					$data = $this->Hudson->getData();
 					$parsed_xml =& new XML($data);
 					$parsed_xml = Set::reverse($parsed_xml);
-					
 					switch ($parsed_xml['FreeStyleBuild']['result']) {
 					  case HUDSON_SUCCESS:
 					    $this->Version->set(array('status' => PACKAGER_VERSION_SUCCESS));
+					    $this->Version->set(array('hudson_artifact' => $parsed_xml['FreeStyleBuild']['Artifact']['fileName']));
     					$this->log("Version #" . $this->Version->id . " :: build successful.", 'packager');
 					    break;
 					  case HUDSON_FAILURE:	
@@ -54,8 +52,40 @@ class PollShell extends Shell {
 			}
 			
 			$this->Version->save(NULL, FALSE);
+			$version = $this->Version->read();
+			
+			if ($version['Version']['status'] == PACKAGER_VERSION_SUCCESS) {
+				if (!empty($version['Version']['hudson_artifact'])) {
+				  if ($this->Hudson->getArtifact($version['Brand']['name'], $version['Version']['hudson_id'], $version['Version']['hudson_artifact'])) {
+					  $jobName = $version['Brand']['name'];
+						$this->log("Version #" . $this->Version->id . " :: successfully fetched artifact.", "packager");
+	 				  $_artifactsFolder = WWW_ROOT . '/artifacts';
+					  $artifactsFolder = new Folder($_artifactsFolder);
+   					$jobFolder = $artifactsFolder->find($jobName);
+					  
+					  if (empty($jobFolder)) {
+ 	 					  if (!$artifactsFolder->create("$_artifactsFolder/$jobName", 0755)) {
+	              $this->log("Version #" . $this->Version->id . " :: Could not create artifact folder for job '$jobname'", "packager");
+	              continue; // do not create a new file in the datastore
+              }
+					  }
+					
+					  $_artifact = "$_artifactsFolder/$jobName/" . $version['Version']['hudson_artifact'];
+					  $artifact = new File($_artifact, TRUE);
+	          $created = $artifact->write($this->Hudson->getData())
+					  $artifact->close();
+					
+					  if (!$created) {
+              $this->log("Version #" . $this->Version->id . " :: Could not write artifact '" . $version['Version']['hudson_artifact'] . " to the datastore.'", "packager");
+				  	} else {
+					    $this->Version->set(array('status' => PACKAGER_VERSION_MISSINGARTIFACT);
+					    $this->Version->save(NULL, FALSE);
+				    }
+					} else {
+						$this->log("Version #" . $this->Version->id . " :: Could not retrieve artifact from Hudson.", "packager");
+					}
+				}
+			}
 		}
-		
-		// @todo: downlaod artifact on success and place it in a datastore (to be defined)
 	}
 }

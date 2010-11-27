@@ -133,9 +133,13 @@ class HudsonComponent extends Object {
     return $this->_postCurl($url, $params);
   }
 
-  function buildStatus($jobname, $id) {
-    $url = $this->server . "/job/$jobname/$id/api/xml";
+  function buildStatus($jobName, $buildId) {
+    $url = $this->server . "/job/$jobname/$buildId/api/xml";
     return $this->_postCurl($url);
   }
-}
 
+  function getArtifact($jobName, $buildId, $artifact) {
+	  $url = $this->server . "/job/$jobName/$buildId/artifact/$artifact";
+	  return $this->_postCurl($url);
+  }
+}

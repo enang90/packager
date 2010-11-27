@@ -6,6 +6,7 @@ define('PACKAGER_VERSION_PENDING', 2);
 define('PACKAGER_VERSION_SUCCESS', 3);
 define('PACKAGER_VERSION_FAILURE', 4);
 define('PACKAGER_VERSION_TIMEOUT', 5);
+define('PACKAGER_VERSION_MISSINGARTIFACT', 6);
 
 // @todo create doc for this class
 class Version extends AppModel {

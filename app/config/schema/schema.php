@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2010-11-23 23:11:57 : 1290551337*/
+/* App schema generated on: 2010-11-27 20:11:53 : 1290887333*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -103,6 +103,7 @@ class AppSchema extends CakeSchema {
 		'status' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'packager_token' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
 		'hudson_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'hudson_artifact' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
