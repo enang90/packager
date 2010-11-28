@@ -72,13 +72,13 @@ class PollShell extends Shell {
 					
 					  $_artifact = "$_artifactsFolder/$jobName/" . $version['Version']['hudson_artifact'];
 					  $artifact = new File($_artifact, TRUE);
-	          $created = $artifact->write($this->Hudson->getData())
+	          $created = $artifact->write($this->Hudson->getData());
 					  $artifact->close();
 					
 					  if (!$created) {
               $this->log("Version #" . $this->Version->id . " :: Could not write artifact '" . $version['Version']['hudson_artifact'] . " to the datastore.'", "packager");
 				  	} else {
-					    $this->Version->set(array('status' => PACKAGER_VERSION_MISSINGARTIFACT);
+					    $this->Version->set(array('status' => PACKAGER_VERSION_MISSINGARTIFACT));
 					    $this->Version->save(NULL, FALSE);
 				    }
 					} else {

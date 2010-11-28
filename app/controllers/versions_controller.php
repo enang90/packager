@@ -19,7 +19,50 @@ class VersionsController extends AppController {
   function archive() {
     $brand = $this->Session->read('Brand');
 	  $conditions = array('Version.brand_id' => $brand['id']);
-	  $this->set('versions', $this->Version->find('all', array('conditions' => $conditions)));
+    $versions = $this->Version->find('all', array('conditions' => $conditions));
+ 
+    foreach ($versions as $key => $version) {
+	    switch ($version['Version']['status']) {
+				case PACKAGER_VERSION_INIT:
+          $versions[$key]['Version']['css_status'] = 'initiated';
+				  $versions[$key]['Version']['human_status'] = __('Initiated', TRUE);
+				  $versions[$key]['Version']['human_status_alt'] = __('Version creation has been initiated.', TRUE);
+				  break;
+				case PACKAGER_VERSION_NOTIFIED:
+          $versions[$key]['Version']['css_status'] = 'created';
+  			  $versions[$key]['Version']['human_status'] = __('Created', TRUE);
+	  		  $versions[$key]['Version']['human_status_alt'] = __('The build server succesfully created your version.', TRUE);
+				  break;
+				case PACKAGER_VERSION_PENDING:
+          $versions[$key]['Version']['css_status'] = 'pending';
+  			  $versions[$key]['Version']['human_status'] = __('Pending', TRUE);
+    		  $versions[$key]['Version']['human_status_alt'] = __('The build is still pending on the build server.', TRUE);
+				  break;
+				case PACKAGER_VERSION_SUCCESS:
+          $versions[$key]['Version']['css_status'] = 'success';
+  			  $versions[$key]['Version']['human_status'] = __('Success', TRUE);
+    		  $versions[$key]['Version']['human_status_alt'] = __('The build server succesfully created your version.', TRUE);
+          $versions[$key]['Version']['download'] = WWW_ROOT . '/artifacts/' . $versions[$key]['Brand']['name'] . '/' . $versions[$key]['Version']['hudson_artifact'];
+				  break;
+				case PACKAGER_VERSION_FAILURE:
+          $versions[$key]['Version']['css_status'] = 'failed';
+	  		  $versions[$key]['Version']['human_status'] = __('Failed', TRUE);
+    		  $versions[$key]['Version']['human_status_alt'] = __('The build server failed to build your version.', TRUE);
+				  break;
+				case PACKAGER_VERSION_TIMEOUT:
+          $versions[$key]['Version']['css_status'] = 'timeout';
+    		  $versions[$key]['Version']['human_status'] = __('Time out', TRUE);
+    		  $versions[$key]['Version']['human_status_alt'] = __('A time out occurred. Building probably failed.', TRUE);
+				  break;
+				case PACKAGER_VERSION_MISSINGARTIFACT:
+          $versions[$key]['Version']['css_status'] = 'missing-artifact';
+    		  $versions[$key]['Version']['human_status'] = __('Missing artifact', TRUE);
+    		  $versions[$key]['Version']['human_status_alt'] = __('Building completed but there is no download available', TRUE);
+				  break;
+	    }
+    }
+
+	  $this->set('versions', $versions);
     $this->set('brand', $brand);
   }
 
@@ -112,5 +155,31 @@ class VersionsController extends AppController {
 		  $message = "POST data not present";
 			$this->set(compact('message'));  
 	  }
+  }
+
+  /**
+   * Download action for the package.
+   * When surfing to 'versions/download/<token>' You'll get the package that matches the token.
+   * This is used in the Version archive and the Appcasting Feed
+   * @param string $packager_token The unique token which was used to register with Hudson
+   * @return void A binary stream which represents the package or triggers a 404 of nothing was found
+   */
+  function download($packager_token = NULL) {
+    $this->view = 'Media';
+
+    if (!is_null($packager_token)) {
+      $version = $this->Version->findByPackagerToken($packager_token);
+
+			$params = array(
+	  		'id' => $version['Version']['hudson_artifact'],
+		  	'name' => substr($version['Version']['hudson_artifact'], 0, -4),
+			  'download' => TRUE,
+	  		'extension' => 'msi',
+	      'mimeType' => array('msi' => 'application/x-msi'),
+		  	'path' => WWW_ROOT . 'artifacts/' . $version['Brand']['name'] . '/',
+			); 
+
+			$this->set($params);
+    }
   }
 }

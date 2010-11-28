@@ -397,6 +397,38 @@ section#add-version div.form-item small {
   font-size: 0.9em;
 }
 
+/* @group Version archive */
+
+table#versions {
+  background: #eee;
+  margin: 0 auto;
+  width: 65%;
+}
+
+table#versions thead th {
+  background: #aaa;
+  padding: 0.5em 0;
+}
+table#versions tr {
+  font-size: 1.15em;
+}
+
+table#versions tr td {
+  padding: 0.5em 0;
+  text-align: center;
+}
+
+table#versions tr.success {
+  background: #BEEDBB;
+}
+
+table#versions tr.failure {
+  background: #EDBBBB;
+}
+
+
+/* @end */
+
 /* @end */
 
 /* @group clearfix */

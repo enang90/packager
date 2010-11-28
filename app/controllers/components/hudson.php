@@ -134,7 +134,7 @@ class HudsonComponent extends Object {
   }
 
   function buildStatus($jobName, $buildId) {
-    $url = $this->server . "/job/$jobname/$buildId/api/xml";
+    $url = $this->server . "/job/$jobName/$buildId/api/xml";
     return $this->_postCurl($url);
   }
 
