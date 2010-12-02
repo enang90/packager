@@ -135,7 +135,6 @@ header {
 }
 
 nav {
-  width: 950px;
 }
 
 nav.secondary-menu {
@@ -182,11 +181,8 @@ div#brands-widget {
 }
 div#brands-widget,
 div#brands-widget div.brand {;
-  width: 400px;
-}
+  width: 350px;
 
-div#brands-widget div.brand {
-  margin: 10px 0 0 0;  
 }
 
 div#brands-widget div.brand img {
@@ -204,7 +200,7 @@ div#brands-widget div.brand span {
 
 div#brands-widget img#brands-select {
   position: absolute;
-  top: 95px;
+  top: -5px;
   right: 0;
 }
 /* @end */
@@ -255,19 +251,60 @@ div#user-widget {
 
 /* @group navigation */
 
+/* @group general */
+
 nav li {
   display: inline;
+}
+
+nav li a {
+  text-decoration: none;
+}
+
+/* @end */
+
+/* @group primary */
+
+div#primary {
+  margin-top: 10px;
+  width: 950px;
+}
+
+div#primary div#brands-widget {
+  float: left;
+}
+div#primary nav {
+  float: right;
+}
+
+div#primary nav#primary-menu li {
+  font-size: 2.2em;
+  text-transform: uppercase;
+  padding: 3px;
+}
+
+div#primary nav#primary-menu li a {
+  color: #aaa;
+}
+
+div#primary nav#primary-menu li a:hover {
+  color: #777;
+}
+
+/* @end */
+
+nav#secondary-menu li {
   background: #333;
   color: #fff;
   padding: 3px;
 }
 
-nav li a {
+nav#secondary-menu li a {
   color: #fff;
   text-decoration: none;
 }
 
-nav li a:visited {
+nav#secondary-menu li a:visited {
   border-bottom: 1px solid #fff;
 }
 
@@ -308,6 +345,15 @@ tr.message {
   background-color: #dfd;
   color: #020;
 }
+/* @end */
+
+/* @group content general */
+
+div.content h2 {
+  font-size: 1.75em;
+  margin: 0.5em 0;
+}
+
 /* @end */
 
 /* @group dashboard */

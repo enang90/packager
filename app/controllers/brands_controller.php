@@ -6,7 +6,10 @@ class BrandsController extends AppController {
   var $components = array('Upload', 'Session');
   var $uses = array('User', 'Brand');
 
-  function index() {  }
+  function index() {  
+	}
+	
+	function help() { }
 
   function beforeFilter() {
 	  parent::beforeFilter();

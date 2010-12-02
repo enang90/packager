@@ -3,7 +3,6 @@
 class VersionsController extends AppController {
 	var $view = 'Theme';
 	var $theme = 'private';
-	var $layout = 'versions';
   var $name = 'Versions';
   var $components = array('Session', 'Appcast', 'Hudson', 'RequestHandler');
   var $uses = array('User', 'Brand', 'Version');

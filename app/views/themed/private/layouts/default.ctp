@@ -34,16 +34,25 @@
 			<img src="/img/pandion_thumb.png" alt="Pandion logo" />
       <h1><?php __('Pandion Packager'); ?></h1>
 	
-	    <?php if (isset($user)) : ?>
-  	  	<?php echo $this->element('brand'); ?>
-	    <?php endif; ?>
-	
-  	  <?php echo $this->element('login'); ?>
+	    <div class="clearfix" id="primary">
+		    <?php if (isset($user)) : ?>
+	  	  	<?php echo $this->element('brand'); ?>
+		    <?php endif; ?>
 
-      <nav>
-	       <li><?php print $this->Html->link('Dashboard', '/brands'); ?></li>
-	       <li><?php print $this->Html->link('Appcasting', '/appcasting'); ?></li>
-	       <li><?php print $this->Html->link('Subscriptions', '/brands/subscriptions'); ?></li>
+	      <nav id="primary-menu">
+	        <li><?php print $this->Html->link('Dashboard', '/brands'); ?></li>
+		      <li><?php print $this->Html->link('Help', '/brands/help'); ?></li>
+	      </nav>
+
+      </div>
+	  	
+	    <?php echo $this->element('login'); ?>
+	
+      <nav id="secondary-menu">
+			   <li><?php print $this->Html->link('Publishing updates', '/appcasting'); ?></li>
+			   <li><?php print $this->Html->link('Version archive', '/appcasting/archive'); ?></li>
+			   <li><?php print $this->Html->link('Add a version', '/appcasting/add'); ?></li>
+	       <li><?php print $this->Html->link('Change subscription', '/brands/subscriptions'); ?></li>
 	    </nav>
 
     </header>
