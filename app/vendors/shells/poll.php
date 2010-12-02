@@ -32,7 +32,7 @@ class	PollShell	extends	Shell	{
 			}
 
 			//	Check	version	with status	PENDING	for	it's build status
-			if ($version['Version']['status']	== PACKAGER_VERSION_NOTIFIED)	{
+			if (($version['Version']['status']	== PACKAGER_VERSION_NOTIFIED)	|| ($version['Version']['status']	== PACKAGER_VERSION_PENDING)) {
 			  if ($this->Hudson->buildStatus($version['Brand']['name'],	$version['Version']['hudson_id'])) {
 					$data	=	$this->Hudson->getData();
 					$parsed_xml	=& new	XML($data);
