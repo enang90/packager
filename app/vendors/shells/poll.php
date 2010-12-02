@@ -64,7 +64,7 @@ class	PollShell	extends	Shell	{
 				if (!empty($version['Version']['hudson_artifact']))	{
 					if ($this->Hudson->getArtifact($version['Brand']['name'],	$version['Version']['hudson_id'],	$version['Version']['hudson_artifact']))	{
 						$jobName = $version['Brand']['name'];
-						$this->log("Version	#"	.	$this->Version->id	.	"	::	successfully fetched artifact.",	"packager");
+						$this->log("Version	#" .	$this->Version->id . " :: successfully fetched artifact.",	"packager");
 						$_artifactsFolder	=	WWW_ROOT	.	'/artifacts';
 						$artifactsFolder	=	new	Folder($_artifactsFolder);
 						$jobFolder	=	$artifactsFolder->find($jobName);
