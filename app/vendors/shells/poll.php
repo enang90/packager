@@ -37,17 +37,23 @@ class	PollShell	extends	Shell	{
 					$data	=	$this->Hudson->getData();
 					$parsed_xml	=& new	XML($data);
 					$parsed_xml	=	Set::reverse($parsed_xml);
-					switch ($parsed_xml['FreeStyleBuild']['result'])	{
-						case HUDSON_SUCCESS:
-							$this->Version->set(array('status'	=>	PACKAGER_VERSION_SUCCESS));
-							$this->Version->set(array('hudson_artifact'	=> $parsed_xml['FreeStyleBuild']['Artifact']['fileName']));
-							$this->log("Version	#" .	$this->Version->id . " :: build successful.", 'packager');
-							break;
-						case HUDSON_FAILURE:
-							$this->Version->set(array('status' => PACKAGER_VERSION_FAILURE));
-							$this->log("Version	#" . $this->Version->id . " :: build failed.",	'packager');
-							break;
-					}	
+
+          if (isset($parsed_xml['FreeStyleBuild']['result'])) {
+						switch ($parsed_xml['FreeStyleBuild']['result'])	{
+							case HUDSON_SUCCESS:
+								$this->Version->set(array('status' => PACKAGER_VERSION_SUCCESS));
+								$this->Version->set(array('hudson_artifact'	=> $parsed_xml['FreeStyleBuild']['Artifact']['fileName']));
+								$this->log("Version	#" .	$this->Version->id . " :: build successful.", 'packager');
+								break;
+							case HUDSON_FAILURE:
+								$this->Version->set(array('status' => PACKAGER_VERSION_FAILURE));
+								$this->log("Version	#" . $this->Version->id . " :: build failed.",	'packager');
+								break;
+						}
+          } else {
+						$this->log("Version	#" .	$this->Version->id . " :: build is pending.", 'packager');
+            $this->Version->set(array('status' =>	PACKAGER_VERSION_PENDING));
+          }
 				}
 			}
 
