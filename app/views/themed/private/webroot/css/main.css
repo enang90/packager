@@ -468,6 +468,8 @@ table#versions tr.success {
   background: #BEEDBB;
 }
 
+table#versions tr.timeout,
+table#versions tr.missing-artifact,
 table#versions tr.failure {
   background: #EDBBBB;
 }
