@@ -151,8 +151,9 @@ class VersionsController extends AppController {
   		}
       $this->log("Version #" . $version['Version']['hudson_id'] . " :: $message", 'packager');
 	  } else {
+		  $status = 0;
 		  $message = "POST data not present";
-			$this->set(compact('message'));  
+			$this->set(compact('status', 'message'));  
 	  }
   }
 
