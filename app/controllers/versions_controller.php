@@ -181,4 +181,10 @@ class VersionsController extends AppController {
 			$this->set($params);
     }
   }
+
+  function appcast() {
+    $brand = $this->Session->read('Brand');
+    $versions = $this->Version->findAllByBrandId($brand['id']); 
+    $this->set('versions', $versions);
+  }
 }
