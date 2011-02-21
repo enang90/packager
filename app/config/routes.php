@@ -41,6 +41,7 @@
   Router::connect('/appcasting', array('controller' => 'versions', 'action' => 'index'));
   Router::connect('/appcasting/add', array('controller' => 'versions', 'action' => 'add'));
   Router::connect('/appcasting/archive', array('controller' => 'versions', 'action' => 'archive'));
+  Router::connect('/appcasting/:id/feed', array('controller' => 'versions', 'action' => 'appcast'));
 
 /**
  * Paypal IPN plugin
