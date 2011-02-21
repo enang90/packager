@@ -11,6 +11,7 @@ define('PACKAGER_VERSION_MISSINGARTIFACT', 6);
 // @todo create doc for this class
 class Version extends AppModel {
 	var $name = 'Version';
+	var $actsAs = array('Uuid' => array('field' => 'uuid'));
 
 	var $belongsTo = array(
 		'Brand' => array(
