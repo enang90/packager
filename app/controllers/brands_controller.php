@@ -95,11 +95,6 @@ class BrandsController extends AppController {
 		
     $this->redirect(array('controller' => 'brands', 'action' => 'index'));
 	}
-	
-	function extras() { }
-	
-	function statistics() { }
-	
 	function __uploadBrandIcon() {
 		// Image handling
 		$destination = realpath('../../app/webroot/img/icons/') . '/';
