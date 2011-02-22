@@ -19,7 +19,18 @@
 			  opacity: 0.9,
 		  }	
 		});
-		
+
+	  $("a[rel]").overlay({
+	    left: 280,
+	    top: 227,
+		  mask: 'darkred',
+		  onBeforeLoad: function() {
+        // grab wrapper element inside content
+        var wrap = this.getOverlay().find(".contentWrap");
+        // load the page specified in the trigger
+        wrap.load(this.getTrigger().attr("href"));
+      }
+		});		
 	});
 	</script>
 
@@ -49,7 +60,7 @@
 	    <?php echo $this->element('login'); ?>
 	
       <nav id="secondary-menu">
-			   <li><?php print $this->Html->link('Publishing updates', '/appcasting'); ?></li>
+			   <li><?php print $this->Html->link('Publishing updates', '/appcasting/track'); ?></li>
 			   <li><?php print $this->Html->link('Version archive', '/appcasting/archive'); ?></li>
 			   <li><?php print $this->Html->link('Add a version', '/appcasting/add'); ?></li>
 	       <li><?php print $this->Html->link('Change subscription', '/brands/subscriptions'); ?></li>

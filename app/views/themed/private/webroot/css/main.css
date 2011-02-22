@@ -448,7 +448,7 @@ section#add-version div.form-item small {
 table#versions {
   background: #eee;
   margin: 0 auto;
-  width: 65%;
+  width: 75%;
 }
 
 table#versions thead th {
@@ -472,6 +472,37 @@ table#versions tr.timeout,
 table#versions tr.missing-artifact,
 table#versions tr.failure {
   background: #EDBBBB;
+}
+
+/* the overlayed element */
+.pandion_overlay {
+	
+	/* initially overlay is hidden */
+	display:none;
+	
+	/* growing background image */
+	background-image:url(../img/white.png);
+	
+	/* 
+		width after the growing animation finishes
+		height is automatically calculated
+	*/
+	width:585px;		
+	
+	/* some padding to layout nested elements nicely  */
+	padding:35px;
+
+	/* a little styling */	
+	font-size:11px;
+}
+
+/* default close button positioned on upper right corner */
+.pandion_overlay .close {
+	background-image:url(../img/close.png);
+	position:absolute; right:5px; top:5px;
+	cursor:pointer;
+	height:35px;
+	width:35px;
 }
 
 

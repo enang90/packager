@@ -5,7 +5,7 @@ class VersionsController extends AppController {
 	var $theme = 'private';
   var $name = 'Versions';
   var $components = array('Session', 'Appcast', 'Hudson', 'RequestHandler');
-  var $uses = array('User', 'Brand', 'Version');
+  var $uses = array('User', 'Brand', 'Version', 'Track');
 
   function beforeFilter() {
 	  parent::beforeFilter();
@@ -62,7 +62,7 @@ class VersionsController extends AppController {
     }
 
 	  $this->set('versions', $versions);
-    $this->set('brand', $brand);
+    $this->set('brandName', $brand['name']);
   }
 
   /**
@@ -184,8 +184,78 @@ class VersionsController extends AppController {
   }
 
   function appcast() {
+    $versions = array();
     $brand = $this->Session->read('Brand');
-    $versions = $this->Version->findAllByBrandId($brand['id']); 
+    $allVersions = $this->Version->findAllByBrandId($brand['id']);
+    foreach ($allVersions as $version) {
+      if ($version['Version']['status'] == PACKAGER_VERSION_SUCCESS) {
+        $versions[] = $version;
+      }
+    }
+
     $this->set('versions', $versions);
+  }
+  
+  /**
+   * Callback for 'appcasting/track'
+   * This is represents the publishing updates menu item
+   */
+  function track() {
+    if ($this->data) { 
+      $this->Version->Track->set(array('version_id' => $this->data['Version']['version_id'], 'track' => $this->data['Version']['version_track']));
+      $this->Version->Track->save(NULL, FALSE);
+    }
+    
+    $versions = array();
+    $brand = $this->Session->read('Brand');
+    $allVersions = $this->Version->findAllByBrandId($brand['id']);
+    foreach ($allVersions as $version) {
+      if ($version['Version']['status'] == PACKAGER_VERSION_SUCCESS) {
+        $version['Version']['track_link_add'] = '/appcasting/' . $version['Version']['id'] .'/track/add';
+        foreach ($version['Track'] as $key => $track) {
+          $version['Track'][$key]['track_link_del'] = '/appcasting/' . $version['Version']['id'] .'/track/delete/' . $track['track'];
+        }
+        $versions[] = $version;
+      }
+    }
+
+    $this->set('versions', $versions);
+    $this->set('brandName', $brand['name']);
+  }
+  
+  /**
+   * Callback for 'appcasting/:id/track/edit
+   * Sets the edit track for publishing updates for a version
+   */
+  function edit_track($id = NULL) {
+    $options = array('beta' => 'beta', 'stable' => 'stable', 'development' => 'development');
+    $this->Version->read(NULL, $id);
+    foreach ($this->Version->data['Track'] as $_track) {
+      $key = array_search($_track['track'], $options);
+      if ($key !== FALSE) {
+        unset($options[$key]);
+      }
+    }
+    
+    $this->set('options', $options);
+    $this->set('version_id', $id);
+  }
+  
+  /**
+   * Callback for 'appcasting/:id/track/delete
+   * Sets the delete track for publishing updates for a version
+   */
+  function delete_track($id = NULL, $track = NULL) {
+    if (isset($id) && isset($track)) {
+      $this->id = $id;
+      $this->Version->read(NULL, $id);
+      foreach ($this->Version->data['Track'] as $_track) {
+        if ($_track['track'] == $track) {
+          $this->Version->Track->delete($_track['id'], FALSE);
+        }
+      }
+    }
+    
+    $this->redirect(array('controller' => 'versions', 'action' => 'track'));
   }
 }

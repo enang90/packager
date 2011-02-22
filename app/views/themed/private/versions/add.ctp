@@ -8,13 +8,13 @@
     	<h3><?php __('Step 1: source code'); ?></h3>
 
       <div class="form-hudson-sourcetype form-item">
-        <?php echo $this->Form->radio('source_type', array('Official', 'Upload', 'Git'), array('label' => 'Source type')); ?>
+        <?php echo $this->Form->radio('source_type', array('official' => 'Official', 'upload' => 'Upload', 'git' => 'Git'), array('label' => 'Source type')); ?>
         <small><?php __('Choose from which source you want to build a version.')?></small>
       </div>
    
       <div class="form-hudson-sourceofficialtag form-item">
 	      <?php echo $this->Form->label(NULL, 'Official source tag'); ?>
-        <?php echo $this->Form->select('source_official_tag', array('Stable', 'Beta', 'Development')); ?>
+        <?php echo $this->Form->select('source_official_tag', array('stable' => 'Stable', 'beta' => 'Beta', 'development' => 'Development')); ?>
         <small><?php __('Choose the development track from which you want to build.'); ?></small>
       </div>
 

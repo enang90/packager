@@ -41,6 +41,9 @@
   Router::connect('/appcasting', array('controller' => 'versions', 'action' => 'index'));
   Router::connect('/appcasting/add', array('controller' => 'versions', 'action' => 'add'));
   Router::connect('/appcasting/archive', array('controller' => 'versions', 'action' => 'archive'));
+  Router::connect('/appcasting/track', array('controller' => 'versions', 'action' => 'track'));
+  Router::connect('/appcasting/:id/track/add', array('controller' => 'versions', 'action' => 'edit_track'), array('pass' => array('id'), 'id' => '[0-9]+'));
+  Router::connect('/appcasting/:id/track/delete/:track', array('controller' => 'versions', 'action' => 'delete_track'), array('pass' => array('id', 'track'), 'id' => '[0-9]+'));
   Router::connect('/appcasting/:id/feed', array('controller' => 'versions', 'action' => 'appcast'));
 
 /**

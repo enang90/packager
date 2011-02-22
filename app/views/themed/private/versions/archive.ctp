@@ -1,4 +1,4 @@
-<h2>Version Archive for '<?php echo $brand['name']; ?>'</h2>
+<h2>Version Archive for '<?php echo $brandName; ?>'</h2>
 
 <table id="versions">
 	 <thead>
@@ -23,8 +23,6 @@
 		<td>
 			 <?php if (isset($version['Version']['download'])) : ?>
 				 <?php echo $html->link('Download', 'download/' . $version['Version']['packager_token'], array('class'=>'button','target'=>'_blank')); ?>
-			 <?php else : ?>
-			   Download
 			<?php endif; ?>
 		</td>
 	</tr>
