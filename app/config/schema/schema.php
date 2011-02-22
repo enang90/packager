@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2010-11-27 20:11:53 : 1290887333*/
+/* App schema generated on: 2011-02-21 10:02:45 : 1298280645*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -73,6 +73,13 @@ class AppSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
 	);
+	var $tracks = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'version_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'track' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
+	);
 	var $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 		'first_name' => array('type' => 'string', 'null' => false, 'default' => NULL),
@@ -104,6 +111,7 @@ class AppSchema extends CakeSchema {
 		'packager_token' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
 		'hudson_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'hudson_artifact' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'uuid' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
