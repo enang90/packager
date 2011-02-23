@@ -4,7 +4,8 @@ class HudsonComponent extends Object {
 	var $build;
 	private $user = 'netsensei';
 	private $pass = 'ciaqIEBrl11Oe7Ri';
-	private $server = 'http://hudson.packager.pandion.im:8080';
+	private $hudson_server = 'http://build.packager.pandion.im:8080';
+	private $packager = 'http://build.pandion.im:8000';
 	private $data;
 	private $status;
 
@@ -60,7 +61,7 @@ class HudsonComponent extends Object {
    */
   function createJob($brand_name) {
 	  if ($brand_name) {
-  	  $url = $this->server . "/createItem?mode=copy&from=BrandMaster&name=" . urlencode($brand_name);
+  	  $url = $this->hudson_server . "/createItem?mode=copy&from=BrandMaster&name=" . urlencode($brand_name);
       return $this->_postCurl($url);
     }
 
@@ -72,7 +73,7 @@ class HudsonComponent extends Object {
    * Verschil tussen name en name_safe?
    */
   function buildJob($jobname, $data) {
-    $url = $this->server . "/job/$jobname/build";
+    $url = $this->hudson_server . "/job/$jobname/build";
    
     switch ($data['source_type']) {
 	    case 0:
@@ -102,6 +103,8 @@ class HudsonComponent extends Object {
 		         [
          			{\"name\": \"packager_token\", 
                \"value\": \"" . $data['packager_token'] . "\"},
+              {\"name\": \"packager_url\", 
+               \"value\": \"" . $this->packager . "\"},
          			{\"name\": \"source_type\", 
                \"value\": \"" . $source_type . "\"},
          			{\"name\": \"source_official_tag\", 
@@ -134,12 +137,12 @@ class HudsonComponent extends Object {
   }
 
   function buildStatus($jobName, $buildId) {
-    $url = $this->server . "/job/$jobName/$buildId/api/xml";
+    $url = $this->hudson_server . "/job/$jobName/$buildId/api/json";
     return $this->_postCurl($url);
   }
 
   function getArtifact($jobName, $buildId, $artifact) {
-	  $url = $this->server . "/job/$jobName/$buildId/artifact/$artifact";
+	  $url = $this->hudson_server . "/job/$jobName/$buildId/artifact/$artifact";
 	  return $this->_postCurl($url);
   }
 }
