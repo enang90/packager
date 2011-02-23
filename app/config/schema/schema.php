@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2011-02-21 10:02:45 : 1298280645*/
+/* App schema generated on: 2011-02-22 10:02:04 : 1298367364*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -52,6 +52,12 @@ class AppSchema extends CakeSchema {
 		'subscription_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'owner' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20),
 		'job_created' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 6),
+		'track_stable' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_beta' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_dev' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_stable_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_beta_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_dev_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
 	);
@@ -61,6 +67,13 @@ class AppSchema extends CakeSchema {
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
+	);
+	var $settings = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
+		'value' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 60),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 	var $subscriptions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
@@ -72,13 +85,6 @@ class AppSchema extends CakeSchema {
 		'active' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
-	);
-	var $tracks = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'version_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'track' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 	var $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -112,6 +118,7 @@ class AppSchema extends CakeSchema {
 		'hudson_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'hudson_artifact' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'uuid' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
+		'publishtime' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);

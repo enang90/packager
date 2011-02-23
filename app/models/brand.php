@@ -45,6 +45,14 @@ class Brand extends AppModel {
 		),
 	);
 	
+	var $hasOne = array(
+	  'Track' => array(
+			'className' => 'Track',
+			'foreignKey' => 'brand_id',
+			'dependent' => TRUE, // delete Tracks if brand is deleted
+		),
+	);
+	
 	/**
 	 * @todo: define a hasmany relationship with subscriptions
 	 */
@@ -59,5 +67,5 @@ class Brand extends AppModel {
     }
 
     return TRUE;
-	}		
+	}
 }

@@ -19,18 +19,6 @@ class Version extends AppModel {
       'foreignKey' => 'brand_id',
 		),
 	);
-	
-	/**
-	 * Defines a releationship between Brands and versions
-	 * A brand can spawn multiple versions (or Hudson builds)
-	 */
-	var $hasMany = array(
-		'Track' => array(
-			'className' => 'Track',
-			'foreignKey' => 'version_id',
-			'dependent' => TRUE, // delete versions if version is deleted
-		),
-	);
 
 	var $validate = array(
 		'source_type' => array(
