@@ -215,7 +215,7 @@ class VersionsController extends AppController {
             'updated' => $brand['Track'][$prefix . '_time'],
             'link_appcast' => array(
               'href' => 'download/' . $version['packager_token'],
-              'length' => '',
+              'length' =>  $version['hudson_artifact_size'],
               'rel' => 'enclosure',
               'title' => $version['name'] . ' ' . $version['version_major'] .  '.' . $version['version_minor'] . '.' . $version['version_build'],
               'type' => 'application/x-msi',
@@ -229,28 +229,4 @@ class VersionsController extends AppController {
       $this->set('entries', $entries);
     }
   }
-  /*
-  <entry xmlns="http://www.w3.org/2005/Atom"
-	  xmlns:appcast="http://pandion.im/protocol/appcast/1.0"
-	  appcast:name="Pandion"
-	  appcast:track="development"
-	  appcast:version="2.6.84">
-
-	  <title>Update: Pandion <?php echo $version['version_major'] .  '.' . $version['version_minor'] . '.' . $version['version_build']; ?></title>
-	  <summary type="html">Development build</summary>
-	  <id>urn:uuid:e01a5712-aa81-466d-ac9f-f2fabfd11886</id>
-	  <published>2010-02-13T16:25:59.942+01:00</published>
-	  <updated>2010-02-13T16:25:59.942+01:00</updated>
-
-	  <link appcast:arguments="/passive LAUNCHAPP=yes"
-	    href="http://downloads.sourceforge.net/project/pandion/builds/Pandion_2.6.84.msi"
-	    length="1801676"
-	    rel="enclosure"
-	    title="Pandion 2.6.84"
-	    type="application/x-msi" />
-
-	  <link href="http://build.pandion.im/job/Pandion/84/changes"
-	    rel="alternate" title="Release Notes" type="text/html" />
-
-	</entry> */
 }

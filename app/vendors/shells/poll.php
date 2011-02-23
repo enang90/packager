@@ -16,7 +16,7 @@ function main()	{
   App::import('Xml');
   $this->Hudson	=	new	HudsonComponent();
 
-  $versions	=	$this->Version->find('all');
+  $versions	=	$this->Version->find('all', array('conditions' => array('Version.status !=' => PACKAGER_VERSION_SUCCESS)));
   foreach	($versions as	$version)	{
     $this->Version->read(NULL, $version['Version']['id']);
 
@@ -84,6 +84,8 @@ function main()	{
             $this->Version->save(NULL,	FALSE);
             $this->log("Version	#" . $this->Version->id	.	"	:: Could not write artifact '"	.	$version['Version']['hudson_artifact'] . " to	the	datastore.'",	"packager");
           }	else {
+            $this->Version->set(array('hudson_artifact_size' => $artifact->size()));
+            $this->Version->save(NULL,	FALSE);
           }
         }	else {
           $this->log("Version	#" . $this->Version->id	.	"	:: Could not retrieve	artifact from	Hudson.",	"packager");
