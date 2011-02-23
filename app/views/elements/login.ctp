@@ -1,21 +1,11 @@
-<div id="user-widget">
-	<?php 
-	  // @todo move logic to controller (?)
-	  if ($user = $session->read('Auth.User')) :
-	    $login = '';
-	    $username = $user['first_name'] . ' ' . $user['last_name'];
-    else :
-      $login = sprintf(__(', please %s', TRUE), $html->link('log in', '/users/login', array('class'=>'button','target'=>'')));
-      $username = 'Guest';
-    endif;
-  ?>
-	
-	<p><?php echo sprintf(__('Howdy <strong>%s</strong>%s', TRUE), $username, $login); ?></p>
-	
-	<?php if (!$user) : ?>
-  	<?php $signup = $html->link('sign up', '/users/register', array('class'=>'button','target'=>'')); ?>
-    <p><?php echo sprintf(__('Did you %s already?', TRUE), $signup); ?></p>
+<menu id="account">
+  <nav>
+	<?php if (!$session->read('Auth.User')) : ?>
+    <li><?php echo $html->link(__('Pricing and Sign Up', TRUE), '/users/register', array('class' => 'button')); ?></li>
+    <li><?php echo $html->link(__('Log In', TRUE), '/users/login', array('class' => 'button')); ?></li>
   <?php else : ?>
-		<p><?php print $html->link('Log out', '/users/logout', array('class'=>'button','target'=>'')); ?></p>
+    <li><?php echo $html->link(__('Manage your IM client', TRUE), '/brands', array('class' => 'button')); ?></li>
+    <li><?php echo $html->link(__('Log Out', TRUE), '/users/logout', array('class' => 'button')); ?></li>
 	<?php endif;?>
-</div>
+  </nav>
+</menu>
