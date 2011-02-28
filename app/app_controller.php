@@ -19,7 +19,7 @@
 
 class AppController extends Controller {
   var $components = array('Session', 'Auth',);
-  var $helpers = array('PaypalIpn.Paypal', 'Session', 'Html', 'Time', 'Ajax');
+  var $helpers = array('Session', 'Html', 'Time', 'Ajax', 'PaypalIpn.Paypal');
 	var $publicControllers = array('pages');
 
 	function beforeFilter(){
@@ -43,6 +43,7 @@ class AppController extends Controller {
 	    $this->set('user', $this->User);
 
       // Check if a brand is active. If not. Set the last added brand as active.	    
+      // @todo: fix updates to brand from subscriptions!
 	    $active_brand = $this->Session->read('Brand');
 	    if (!$active_brand) {
 		    $active_brand = array_pop($this->User->data['Brand']);
@@ -63,27 +64,36 @@ class AppController extends Controller {
     //retrieve the transaction using the txnId passed and apply whatever logic your site needs.
       
     $transaction = ClassRegistry::init('PaypalIpn.InstantPaymentNotification')->findById($txnId);
-    $this->log($transaction['InstantPaymentNotification']['id'], 'paypal');
+    $this->log(__(sprintf('Processed %s, fireing callback functionality.', $transaction['InstantPaymentNotification']['id']), TRUE), 'paypal');
   
     //Tip: be sure to check the payment_status is complete because failure 
-    //     are also saved to your database for review.
+    //  are also saved to your database for review.
   
     if($transaction['InstantPaymentNotification']['payment_status'] == 'Completed'){
 
-       // @todo: if completed, then get Brand id
-       $brand_id = $transaction['InstantPaymentNotification']['item_number'];
+      // @todo: if completed, then get Brand id
+      $brand_id = $transaction['InstantPaymentNotification']['item_number'];
 
-       // @todo: fetch Brand based on brand id
-       $brand = ClassRegistry::init('PaypalIpn.InstantPaymentNotification')->findById($brand_id);
+      // @todo: fetch Brand based on brand id
+      $brand = ClassRegistry::init('Brand')->findById($brand_id);
 
-       // @todo: set status Blocked to FALSE (?) or set status active to TRUE
-       $brand->set('subscription_id', $transaction['InstantPaymentNotification']['item_name']);
-       $brand->save();
+      // @todo: set status Blocked to FALSE (?) or set status active to TRUE
+      $data = array(
+        'id' => $brand_id,
+        'subscription_id' => $transaction['InstantPaymentNotification']['id'],
+        'active' => TRUE,
+      );
 
-       // @todo: redirect to brands controller subscription completed page
-       // @todo: check if this is a subscription change or a new subscription
+      if (ClassRegistry::init('Brand')->save($data, FALSE)) {
+        $this->log(__(sprintf('Activated brand %s successfully.', $brand['name']), TRUE), 'paypal');
+      }
+
+      // @todo: redirect to brands controller subscription completed page
+      // @todo: check if this is a subscription change or a new subscription
     }
     else {
+      $this->log(__(sprintf('The transaction %s could not be processed.', $txnId), TRUE), 'paypal');
+      $this->log(__(sprintf('Status of transaction %s : %s', $txnId, $transaction['InstantPaymentNotification']['payment_status']), TRUE), 'paypal');
       //Oh no, better look at this transaction to determine what to do; like email a decline letter.
     }
   }
