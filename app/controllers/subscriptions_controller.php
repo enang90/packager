@@ -1,62 +1,41 @@
 <?php
+
 class SubscriptionsController extends AppController {
+	var $view = 'Theme';
+	var $theme = 'private';
+  var $name = 'Subscriptions';
+  var $components = array('Session');
+  var $uses = array('User', 'Brand', 'Subscription');
 
-	var $name = 'Subscriptions';
+	/**
+	 * review/change the subscription plan
+	 */
+	function index() {
+		$brand = $this->Session->read('Brand');
+		
+		if (!$brand) {
+      $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.'), 'pandion');
+      $this->redirect(array('controller'=> 'brands', 'action' => 'index'));
+		}
 
-	function admin_index() {
-		$this->Subscription->recursive = 0;
-		$this->set('subscriptions', $this->paginate());
-	}
+	  $transaction = ClassRegistry::init('PaypalIpn.InstantPaymentNotification')->findById($brand['subscription_id']);
+	  
+	  // render the 'has_subscription' ctp if a brand already has a transaction and is active
+	  if (($transaction) && ($brand['active'])) {
+	    $this->render('has_subscription');
+	  }
 
-	function admin_view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid subscription', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('subscription', $this->Subscription->read(null, $id));
-	}
-
-	function admin_add() {
-		if (!empty($this->data)) {
-			$this->Subscription->create();
-			if ($this->Subscription->save($this->data)) {
-				$this->Session->setFlash(__('The subscription has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The subscription could not be saved. Please, try again.', true));
-			}
-		}
-	}
-
-	function admin_edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid subscription', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		if (!empty($this->data)) {
-			if ($this->Subscription->save($this->data)) {
-				$this->Session->setFlash(__('The subscription has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The subscription could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Subscription->read(null, $id);
-		}
-	}
-
-	function admin_delete($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for subscription', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		if ($this->Subscription->delete($id)) {
-			$this->Session->setFlash(__('Subscription deleted', true));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Subscription was not deleted', true));
-		$this->redirect(array('action' => 'index'));
+	  $subscription = $this->Subscription->find('first');
+	  $button = array(
+		  'test' => TRUE,
+		  'type' => $subscription['Subscription']['type'], 
+	    'amount' => $subscription['Subscription']['amount'],
+	    'term' => $subscription['Subscription']['term'],
+	    'period' => $subscription['Subscription']['period'],
+	    'item_name' => __(sprintf('Subscription plan for brand: %s', $brand['name']), TRUE),
+			'item_number' => $brand['id']);
+			
+		$this->set('brand_name', $brand['name']);	
+		$this->set('button', $button);	
 	}
 }
-?>

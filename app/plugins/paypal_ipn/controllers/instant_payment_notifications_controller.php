@@ -42,7 +42,7 @@ class InstantPaymentNotificationsController extends PaypalIpnAppController {
     * @param String $txnId is the string paypal ID and the id used in your database.
     */
   private function __processTransaction($txnId){
-    $this->log("Processing Trasaction: $txnId",'paypal');
+    $this->log("Processing Transaction: $txnId",'paypal');
     //Put the afterPaypalNotification($txnId) into your app_controller.php
     $this->afterPaypalNotification($txnId);
   }

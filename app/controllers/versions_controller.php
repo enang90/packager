@@ -15,8 +15,15 @@ class VersionsController extends AppController {
   function index() {
   }
 
+  /**
+   * Callback for the version archive (appcasting/versions)
+   */
   function archive() {
-    $brand = $this->Session->read('Brand');
+    // limit access to feature until activated
+    if (!($brand = $this->_getBrand())) {
+      $this->redirect(array('controller' => 'brands', 'action' => 'index'));
+    }
+
 	  $conditions = array('Version.brand_id' => $brand['id']);
     $versions = $this->Version->find('all', array('conditions' => $conditions));
  
@@ -74,6 +81,11 @@ class VersionsController extends AppController {
    * is tracked in the model.
    */
   function add() {
+    // limit access to feature until activated
+    if (!($brand = $this->_getBrand())) {
+      $this->redirect(array('controller' => 'brands', 'action' => 'index'));
+    }
+
     $versions = $this->Appcast->get_appcast_feed();
     $this->set('versions', $versions);
 
@@ -228,5 +240,27 @@ class VersionsController extends AppController {
       
       $this->set('entries', $entries);
     }
+  }
+
+  /**
+   * Retrieve the brand data from the session
+   * @return $brand mixed FALSE if not found/inactive, otherwise: an array with brand data
+   */
+  function _getBrand() {
+    $brand = $this->Session->read('Brand');
+
+    // brand not found
+    if (!$brand) {
+      $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.'), 'pandion');
+      $brand = FALSE;
+    }
+
+    // brand not active
+    if (!$brand['active']) {
+      $this->_flash(sprintf(__('The current brand \'%s\' is not activated. You need a subscription plan before you can proceed using our features.', TRUE), $brand['name']), 'pandion');
+      $brand = FALSE;
+    }
+
+    return $brand;
   }
 }
