@@ -1,23 +1,24 @@
-<section class="intro">
-  <div class="placeholder"><?php __('Slideshow'); ?></div>
+<section class="splash">
+  <div class="slideshow"><?php __('Placeholder'); ?></div>
   <article>
-    <h1><?php __('Brand, Configure, Deploy'); ?></h1>
+    <h1><?php __('Customize, Automate, Deploy.'); ?></h1>
     <p><?php __('Pandion Packager is a service for network administrators to automate Pandion IM deployment. Create a branded instant messaging client, configure settings, deploy to unlimited users, and manage software updates. All from an easy to use web interface.'); ?></p>
-    <p><?php echo $html->link(__('Pricing and Sign Up', TRUE), '/users/register', array('class' => 'button')); ?></p>
+    <p><?php echo $html->link(__('Pricing and Sign Up', TRUE), '/users/register', array('class' => 'signup-button')); ?></p>
   </article>
 </section>
 
 <section class="main">
 
-  <menu class="tabs">
-    <nav>
+  <nav class="tabs">
+    <menu>
       <li><?php echo $html->link(__('Features', TRUE), '/', array('class' => 'active')); ?></li>
       <li><?php echo $html->link(__('Pricing and Sign Up', TRUE), '/users/register', array()); ?></li>
-    </nav>
-  </menu>
+      <li><?php echo $html->link(__('About', TRUE), '/about', array()); ?></li>
+    </menu>
+  </nav>
 
-  <article>
-    <h1><?php __('Pandion Packager makes life easier'); ?></h1>
+  <article class="panel">
+    <h1><?php __('Pandion Packager enables control.'); ?></h1>
     <ul>
       <li><?php __('Generate custom MSI packages ready for network deployment'); ?></li>
       <li><?php __('Full control over all application settings'); ?></li>

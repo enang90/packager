@@ -10,39 +10,44 @@
 </head>
 <body>
 
-  <header>
-    <hgroup>
-      <h1><?php __('Pandion Packager'); ?></h1>
-      <h2><?php __('IM client management made easy.'); ?></h2>
-    </hgroup>
-    <?php echo $this->element('login'); ?>
-  </header>
+  <div id="container">
 
-  <section class="content">
-    <?php echo $session->flash(); ?>
-    <?php echo $session->flash('auth'); ?>
-    <?php echo $content_for_layout; ?>
-  </section>
+    <header class="navigation">
+      <hgroup class="logo">
+        <h1><?php __('Pandion Packager'); ?></h1>
+        <h2><?php __('IM client management made easy.'); ?></h2>
+      </hgroup>
+      <?php echo $this->element('login'); ?>
+    </header>
 
-  <section class="sitemap">
-    <h1><?php __('Sitemap'); ?></h1>
-    <ul>
-      <li><?php __('Home'); ?></li>
-      <li><?php __('Pricing and Sign Up'); ?></li>
-      <li><?php __('Dashboard'); ?></li>
-    </ul>
-  </section>
+    <section class="content">
+      <?php echo $session->flash(); ?>
+      <?php echo $session->flash('auth'); ?>
+      <?php echo $content_for_layout; ?>
+    </section>
 
-  <section class="outro">
-    <article>
-      <h1><?php __('Open Source à la Carte'); ?></h1>
-      <p><?php __('While anyone can download the <a href="https://github.com/pandion/pandion">Pandion IM source code</a> to create custom builds, this requires considerable time-investment and programming skills. The Pandion Packager service was created for network administrators to save time and deliver better results while maintaining full control over their deployment. And the service fees help grow the open source Pandion IM project: win-win.'); ?></p>
-    </article>
-  </section>
+    <section class="sitemap">
+      <h1><?php __('Sitemap'); ?></h1>
+      <ul>
+        <li><?php echo $html->link(__('Home', TRUE), '/', array()); ?></li>
+        <li><?php echo $html->link(__('Pricing and Sign Up', TRUE), '/users/login', array()); ?></li>
+        <li><?php echo $html->link(__('Manage your IM Client', TRUE), '/brands', array()); ?></li>
+        <li><?php echo $html->link(__('About', TRUE), '/about', array()); ?></li>
+      </ul>
+    </section>
 
-  <footer>
-    <p class="closing"><?php __('Copyright &copy; Pandion Pte. Ltd. All rights reserved.'); ?></p>
-  </footer>
+    <section class="outro">
+      <article class="info">
+        <h1><?php __('Open Source à la Carte'); ?></h1>
+        <p><?php __('While anyone can download the <a href="https://github.com/pandion/pandion">Pandion IM source code</a> to create custom builds, this requires considerable time-investment and programming skills. The Pandion Packager service was created for network administrators to save time and deliver better results while maintaining full control over their deployment. And the service fees help grow the open source Pandion IM project: win-win.'); ?></p>
+      </article>
+    </section>
+
+    <footer class="closing">
+      <p><?php __('Copyright &copy; Pandion Pte. Ltd. All rights reserved.'); ?></p>
+    </footer>
+
+  </div>
 
 </body>
 </html>
