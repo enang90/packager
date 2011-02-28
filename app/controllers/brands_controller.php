@@ -42,26 +42,6 @@ class BrandsController extends AppController {
 	}
 	
 	/**
-	 * review/change the subscription plan
-	 */
-	function subscriptions() {
-		$brand = $this->Session->read('Brand');
-		if (!is_null($brand['id'])) {
-			$subscriptions = ClassRegistry::init('Subscription')->find('all');
-			
-			// @todo: fix handling of subscriptons to match data model
-			foreach ($subscriptions as $key => $subscription) {
-				$subscriptions[$key]['Subscription']['active'] = FALSE;
-				if ($subscription['Subscription']['id'] == $brand['subscription_id'])
-				  $subscriptions[$key]['Subscription']['active'] = TRUE;
-			}
-
-      $this->set('subscriptions', $subscriptions);
-      $this->set('brand_id', $brand['id']);
-		}		
-	}
-		
-	/**
 	 * Edit a brand
 	 */
 	function edit($id = NULL) {
