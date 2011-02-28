@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2011-02-28 09:02:37 : 1298881297*/
+/* App schema generated on: 2011-02-28 15:02:42 : 1298904402*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -63,6 +63,12 @@ class AppSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
 	);
+	var $groups = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'unique'),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'name' => array('column' => 'name', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
+	);
 	var $settings = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
@@ -104,6 +110,7 @@ class AppSchema extends CakeSchema {
 		'email' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 40),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'blocked' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 1),
+		'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
 	);
