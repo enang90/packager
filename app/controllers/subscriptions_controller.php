@@ -5,7 +5,7 @@ class SubscriptionsController extends AppController {
 	var $theme = 'private';
   var $name = 'Subscriptions';
   var $components = array('Session');
-  var $uses = array('User', 'Brand');
+  var $uses = array('User', 'Brand', 'Subscription');
   
 	/**
 	 * review/change the subscription plan
@@ -17,20 +17,19 @@ class SubscriptionsController extends AppController {
       $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.'), 'pandion');
       $this->redirect(array('controller'=> 'brands', 'action' => 'index'));
 		}
-	
 		
-		/* if (!is_null($brand['id'])) {
-			$subscriptions = ClassRegistry::init('Subscription')->find('all');
+	  $subscription = $this->Subscription->find('first');
+
+	  $button = array(
+		  'test' => TRUE,
+		  'type' => $subscription['Subscription']['type'], 
+	    'amount' => $subscription['Subscription']['amount'],
+	    'term' => $subscription['Subscription']['term'],
+	    'period' => $subscription['Subscription']['period'],
+	    'item_name' => __(sprintf('Subscription plan for \'%s\'', $brand['name']), TRUE),
+			'item_number' => $brand['id']);
 			
-			// @todo: fix handling of subscriptons to match data model
-			foreach ($subscriptions as $key => $subscription) {
-				$subscriptions[$key]['Subscription']['active'] = FALSE;
-				if ($subscription['Subscription']['id'] == $brand['subscription_id']) {
-				  $subscriptions[$key]['Subscription']['active'] = TRUE;				  
-				}
-			}
-			
-      $this->set('subscriptions', $subscriptions); */
-      $this->set('brand_name', $brand['name']);	
+		$this->set('brand_name', $brand['name']);	
+		$this->set('button', $button);	
 	}
 }

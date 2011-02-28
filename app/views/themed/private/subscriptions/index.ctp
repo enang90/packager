@@ -1,44 +1,14 @@
 <?php // @todo: needs hard refactoring! ?>
 <?php // @todo: what if no Brand is active? ?>
 
-<h2>Subscription plan</h2>
+<h2>Subscription plan for '<?php print $brand_name; ?>'</h2>
 
-<p>Choose your subscription plan.</p>
+<p>We currently offer a single, simple subscription plan: get access to all features offered by
+  Pandion Packager for only 95$ a month. No strings attached.</p>
 
-<table class="subscriptions">
-<?php
+<span class="subscription-button"><?php print $paypal->button('Subscribe', $button); ?></span>
 
-$fields = array('name', 'period', 'amount', 'button');
-foreach ($fields as $field) {
-	print "<tr class='$field'>";
-	foreach ($subscriptions as $subscription) {
-		switch ($field) {
-      case 'name':
-        if ($subscription['Subscription']['active']) :
-          print '<td class="active">' . $subscription['Subscription'][$field] . '</td>';
-        else :
-       	  print '<td>' . $subscription['Subscription'][$field] . '</td>';
-        endif;
-        break;
-      case 'period':
-        	print '<td>' . $subscription['Subscription']['period'] . ' ' . $subscription['Subscription']['term'] . '</td>';
-        break;
-      case 'amount':
-      		print '<td>' . $subscription['Subscription'][$field] . ' $</td>';
-        break;
-      case 'button':
-  			print '<td>' . $paypal->button($subscription['Subscription']['name'],  array(
- 				  'test' => TRUE,
-				  'type' => $subscription['Subscription']['type'], 
-			    'amount' => $subscription['Subscription']['amount'],
-			    'term' => $subscription['Subscription']['term'],
-			    'period' => $subscription['Subscription']['period'],
-			    'item_name' => $subscription['Subscription']['id'],
-    			'item_number' => $brand_id)) . '</td>';
-		}
-	}
-	print '</tr>';
-}
-
-?>
-</table>
+<p>How does it work?</p>
+<p>Click the big Subscribe button above. You'll need a PayPal account. After you've
+  registered your payment plan. Monthly recurrent withdrawals will be made automatically. You'll get a warning a few days in advance
+  to remind you of a pending withdrawal. If you want to cancel your subscription, click the unsubscribe button below.</p>
