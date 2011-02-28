@@ -21,11 +21,13 @@ class AppController extends Controller {
   var $components = array('Session', 'Auth',);
   var $helpers = array('Session', 'Html', 'Time', 'Ajax', 'PaypalIpn.Paypal');
 	var $publicControllers = array('pages');
+	var $permissions = array();
 
 	function beforeFilter(){
+	  $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
     $this->Auth->loginRedirect = array('controller' => 'brands', 'action' => 'index');
     $this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'display', 'home');
-
+    $this->Auth->authorize = 'controller';
 		$this->Auth->userScope = array('User.blocked' => 0);
     $this->Auth->fields = array('username' => 'email', 'password' => 'password');
 
@@ -52,6 +54,28 @@ class AppController extends Controller {
         }
 	    }
     }
+  }
+
+  /**
+   * Checks the permissions for a given controller/action defined in the $permissions array
+   * of said controller class
+   * @return boolean TRUE or FALSE
+   */
+  function isAuthorized() {
+    if ($this->Auth->user('group') == 'admin') {
+      return TRUE; //Remove this line if you don't want admins to have access to everything by default
+    }
+
+    if (!empty($this->permissions[$this->action])) {
+      if ($this->permissions[$this->action] == '*') {
+        return TRUE;
+      }
+      if (in_array($this->Auth->user('group'), $this->permissions[$this->action])) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
   }
 
   /**

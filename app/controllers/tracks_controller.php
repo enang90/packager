@@ -6,6 +6,11 @@ class TracksController extends AppController {
   var $components = array('Upload', 'Session');
   var $uses = array('User', 'Brand', 'Version', 'Track');
 
+  var $permissions = array(
+    'index' => '*',
+    'edit' => array('authenticated'),
+  );
+
   function beforeFilter() {
 	  parent::beforeFilter();
   }

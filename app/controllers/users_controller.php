@@ -3,7 +3,7 @@ class UsersController extends AppController {
 	var $view = 'Theme';
 	var $theme = 'public';
 	var $name = 'Users';
-  var $components = array('Upload', 'Acl');
+  var $components = array('Upload');
 	var $uses = array('User', 'Brand');
 
   function beforeFilter() {
@@ -27,18 +27,6 @@ class UsersController extends AppController {
 			$this->User->set($this->data);
 			if ($this->User->validates()) {
 				if ($this->User->save($this->data)) {
-					$aro = new Aro();
-					
-					$aro_data = array(
-						'alias' => $this->data['User']['email'],
-						'parent_id' => 6, // 'authenticated' ARO group by default
-						'model' => 'User',
-						'foreign_key' => $this->User->id,
-					);
-					
-					$aro->create();
-					$aro->save($aro_data);
-					
 				  $login = $this->Auth->login($this->data);
 	        if ($login) {
 	 	        $this->redirect($this->Auth->redirect());
@@ -46,31 +34,26 @@ class UsersController extends AppController {
 				}
 			}
 		}
-	}	
-	
-	function login() { }
-	
-	function logout() {
-		$this->Session->destroy();  // @todo not in Auth->logout ? Weird!
-		$this->Session->setFlash('Logout');
-		$this->redirect($this->Auth->logout());
 	}
 	
 	/**
-	 * Defines the ARO structure for Users
-	 * Basic 2 groups = admin / authenticated. Specific subscriptions groups go under 'autenticated'
+	 * Login functionality
+	 * This is a callback function executed afther authentication. It will set the users' group
+	 * in the session. This will then be used in the isAuthorized() function to check the permissions
 	 */
-	function permissions() {
-		$aro =& $this->Acl->Aro;
-
-		$groups = array(
-			0 => array('alias' => 'admin'),
-			1 => array('alias' => 'authenticated'),
-		);
-		
-		foreach ($groups as $group) {
-			$aro->create();
-			$aro->save($group);
-		}
+	function login() { 
+    if ($this->Auth->user()) {
+      $this->Session->write('Auth.User.group', $this->User->Group->field('name',array('id' => $this->Auth->user('group_id'))));
+      $this->redirect($this->Auth->redirect()); 
+    }
+	}
+	
+	/**
+	 * Simple logout. Destroys the session.
+	 */
+	function logout() {
+		$this->Session->destroy();  // @todo not in Auth->logout ? Weird!
+		$this->Session->setFlash('Logout'); 
+		$this->redirect($this->Auth->logout());
 	}
 }

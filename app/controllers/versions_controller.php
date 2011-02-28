@@ -6,6 +6,14 @@ class VersionsController extends AppController {
   var $name = 'Versions';
   var $components = array('Session', 'Appcast', 'Hudson', 'RequestHandler');
   var $uses = array('User', 'Brand', 'Version');
+  
+  var $permissions = array(
+    'index' => '*',
+    'download' => '*',
+    'appcast' => '*',
+    'archive' => array('authenticated'),
+    'add' => array('authenticated'),
+  );
 
   function beforeFilter() {
 	  parent::beforeFilter();

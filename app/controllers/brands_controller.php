@@ -5,6 +5,14 @@ class BrandsController extends AppController {
   var $name = 'Brands';
   var $components = array('Upload', 'Session');
   var $uses = array('User', 'Brand');
+  
+  var $permissions = array(
+    'index' => '*',
+    'help' => '*',
+    'add' => array('authenticated'),
+    'edit' => array('authenticated'),
+    'switchBrand' => array('authenticated'),
+  );
 
   function index() {  
 	}

@@ -7,6 +7,10 @@ class SubscriptionsController extends AppController {
   var $components = array('Session');
   var $uses = array('User', 'Brand', 'Subscription');
 
+  var $permissions = array(
+    'index' => '*',
+  );
+
 	/**
 	 * review/change the subscription plan
 	 */
