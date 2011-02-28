@@ -6,7 +6,7 @@ class SubscriptionsController extends AppController {
   var $name = 'Subscriptions';
   var $components = array('Session');
   var $uses = array('User', 'Brand', 'Subscription');
-  
+
 	/**
 	 * review/change the subscription plan
 	 */
@@ -17,10 +17,11 @@ class SubscriptionsController extends AppController {
       $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.'), 'pandion');
       $this->redirect(array('controller'=> 'brands', 'action' => 'index'));
 		}
-		
+
 	  $transaction = ClassRegistry::init('PaypalIpn.InstantPaymentNotification')->findById($brand['subscription_id']);
 	  
-	  if ($transaction) {
+	  // render the 'has_subscription' ctp if a brand already has a transaction and is active
+	  if (($transaction) && ($brand['active'])) {
 	    $this->render('has_subscription');
 	  }
 
