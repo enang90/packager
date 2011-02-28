@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2011-02-22 10:02:04 : 1298367364*/
+/* App schema generated on: 2011-02-28 09:02:37 : 1298881297*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -49,15 +49,10 @@ class AppSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 155),
 		'icon' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'),
-		'subscription_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'subscription_id' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'owner' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 20),
 		'job_created' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 6),
-		'track_stable' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
-		'track_beta' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
-		'track_dev' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
-		'track_stable_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
-		'track_beta_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
-		'track_dev_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
 	);
@@ -85,6 +80,21 @@ class AppSchema extends CakeSchema {
 		'active' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
+	);
+	var $tracks = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'track_stable_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 4),
+		'track_beta_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 4),
+		'track_dev_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 4),
+		'track_stable_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_beta_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_dev_active' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'track_stable_time' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'track_beta_time' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'track_dev_time' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'brand_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 	var $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -117,6 +127,7 @@ class AppSchema extends CakeSchema {
 		'packager_token' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
 		'hudson_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'hudson_artifact' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'hudson_artifact_size' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'uuid' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32),
 		'publishtime' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
