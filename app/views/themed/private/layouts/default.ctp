@@ -63,7 +63,7 @@
 			   <li><?php print $this->Html->link('Publishing updates', '/appcasting/track'); ?></li>
 			   <li><?php print $this->Html->link('Version archive', '/appcasting/archive'); ?></li>
 			   <li><?php print $this->Html->link('Add a version', '/appcasting/add'); ?></li>
-	       <li><?php print $this->Html->link('Change subscription', '/brands/subscriptions'); ?></li>
+	       <li><?php print $this->Html->link('Change subscription', '/subscriptions'); ?></li>
 	    </nav>
 
     </header>
