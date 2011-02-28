@@ -25,13 +25,13 @@ class PaypalIpnConfig {
     * Test settings to test with using a sandbox paypal account.
     */
   var $testSettings = array(
-    'business' => 'sandbox_email@paypal.com', //'sandbox_email@paypal.com',
+    'business' => 'matthi_1280070046_biz@colada.be', //'sandbox_email@paypal.com',
     'server' => 'https://www.sandbox.paypal.com',
-    'notify_url' => 'http://www.yoursite.com/paypal_ipn/process', //'http://www.yoursite.com/paypal_ipn/process',
+    'notify_url' => 'http://build.pandion.im:8000/paypal_ipn/process', //'http://www.yoursite.com/paypal_ipn/process',
     'currency_code' => 'USD',
     'lc' => 'US',
     'item_name' => 'Paypal_IPN',
-    'amount' => '15.00'
+    'amount' => '95.00'
   );
 
 }
