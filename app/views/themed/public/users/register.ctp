@@ -16,12 +16,6 @@
 ?>
 </div>
 
-<div class="brand-registration">
-<?php
-  echo $this->Form->input('Brand.name', array('label' => 'Brand name'));
-?>
-</div>
-
 <?php
   echo $this->Form->end('Sign up!');
 ?>
