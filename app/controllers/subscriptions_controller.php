@@ -18,7 +18,7 @@ class SubscriptionsController extends AppController {
 		$brand = $this->Session->read('Brand');
 		
 		if (!$brand) {
-      $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.'), 'pandion');
+      $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.', TRUE), 'pandion');
       $this->redirect(array('controller'=> 'brands', 'action' => 'index'));
 		}
 
