@@ -1,5 +1,21 @@
 <section class="splash">
-  <div class="slideshow"><?php __('Placeholder'); ?></div>
+  <div class="slideshow">
+    <div class="items">
+      <div><img src="img/slide1.png" /></div>
+      <div><img src="img/slide2.png" /></div>
+      <div><img src="img/slide3.png" /></div>
+      <div><img src="img/slide4.png" /></div>
+    </div>
+  </div>
+  <a class="prev slidenav">prev</a>
+  <a class="next slidenav">next</a>
+  <script>
+  $(function() {
+    $(".slideshow")
+      .scrollable({circular: true, keyboard: false})
+      .autoscroll({interval: 3000});
+  });
+  </script>
   <article>
     <h1><?php __('Customize, Automate, Deploy.'); ?></h1>
     <p><?php __('Pandion Packager is a service for network administrators to automate Pandion IM deployment. Create a branded instant messaging client, configure settings, deploy to unlimited users, and manage software updates. All from an easy to use web interface.'); ?></p>

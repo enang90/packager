@@ -12,6 +12,8 @@ html {
 body {
 	font-size: 125%;
 	background:
+		#1d1d1d url("../../../img/bg-header-main.png") center top no-repeat; /* ie 7/8 */
+	background:
 		url("../../../img/bg-header-main.png") center top no-repeat,
 		url("../../../img/bg-header-stretch.png") center top repeat-x,
 		url("../../../img/bg-footer-stretch.png") center bottom repeat-x,
@@ -153,9 +155,57 @@ section.splash .slideshow {
 		0 6px 13px rgba(179, 177, 180, 0.55);
 	display: inline-block;
 	height: 300px;
-	width: 430px;
-	text-align: center;
+	width: 400px;
 	float: left;
+	margin-left: 30px;
+	/* jQuery Tools Scrollable */
+	position: relative;
+	overflow: hidden;
+}
+section.splash .slideshow .items {
+	width: 20000em;
+	position: absolute;
+}
+section.splash .slideshow .items div {
+	float: left;
+}
+section.splash .slidenav {
+	cursor: pointer;
+	background-image: url("../../../img/slideshow-arrows.png");
+	background-position: 0 0;
+	height: 26px;
+	width: 25px;
+	/*z-index: 1000;*/
+	opacity: 0.5;
+	transition-property: opacity;
+	transition-duration: 250ms;
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 250ms;
+	-o-transition-property: opacity;
+	-o-transition-duration: 250ms;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 250ms;
+	/* Image Replacement */
+	display: inline-block;
+	text-indent: -999em;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	text-align: left;
+	direction: ltr;
+}
+section.splash .slidenav:hover {
+	opacity: 1;
+}
+/*section.splash .slidenav:active {
+	margin-top: 142px;
+}*/
+section.splash .slidenav.prev {
+	margin: 140px 0 0 -428px;
+	background-position: 0 0;
+}
+section.splash .slidenav.next {
+	margin: 0 0 0 400px;
+	background-position: -33px 0;
 }
 section.splash article {
 	width: 475px;
