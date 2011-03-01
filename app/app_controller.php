@@ -21,37 +21,62 @@ class AppController extends Controller {
   var $components = array('Session', 'Auth',);
   var $helpers = array('Session', 'Html', 'Time', 'Ajax', 'PaypalIpn.Paypal');
 	var $publicControllers = array('pages');
+	var $permissions = array();
 
 	function beforeFilter(){
     $this->Auth->loginRedirect = array('controller' => 'brands', 'action' => 'index');
     $this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'display', 'home');
-
-		$this->Auth->userScope = array('User.blocked' => 0);
+    $this->Auth->authorize = 'controller';
+    $this->Auth->userScope = array('User.blocked' => 0);
     $this->Auth->fields = array('username' => 'email', 'password' => 'password');
 
-		if (in_array(strtolower($this->params['controller']), $this->publicControllers)) {
-			$this->Auth->allow();			 
+    if (in_array(strtolower($this->params['controller']), $this->publicControllers)) {
+      $this->Auth->allow();
     }
 
     if ($user = $this->Auth->user()) {
-	    // load the User if logged in.
+      // load the User if logged in.
       $this->User =	ClassRegistry::init('User');
-	    $this->User->set($user['User']);
-	    $this->User->read();
-	
-	    // set the user in the brand views
-	    $this->set('user', $this->User);
+      $this->User->set($user['User']);
+      $this->User->read();
+
+      // set the user in the brand views
+      $this->set('user', $this->User);
 
       // Check if a brand is active. If not. Set the last added brand as active.	    
       // @todo: fix updates to brand from subscriptions!
-	    $active_brand = $this->Session->read('Brand');
-	    if (!$active_brand) {
-		    $active_brand = array_pop($this->User->data['Brand']);
-		    if ($active_brand) {
-  		    $this->Session->write('Brand', $active_brand);
+      $active_brand = $this->Session->read('Brand');
+      if (!$active_brand) {
+        if ($this->User->data['Brand']) {
+          $active_brand = array_pop($this->User->data['Brand']);
+          if ($active_brand) {
+            $this->Session->write('Brand', $active_brand);
+          }
         }
-	    }
+      }
     }
+  }
+
+  /**
+   * Checks the permissions for a given controller/action defined in the $permissions array
+   * of said controller class
+   * @return boolean TRUE or FALSE
+   */
+  function isAuthorized() {
+    if ($this->Auth->user('group') == 'admin') {
+      return TRUE; //Remove this line if you don't want admins to have access to everything by default
+    }
+
+    if (!empty($this->permissions[$this->action])) {
+      if ($this->permissions[$this->action] == '*') {
+        return TRUE;
+      }
+      if (in_array($this->Auth->user('group'), $this->permissions[$this->action])) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
   }
 
   /**

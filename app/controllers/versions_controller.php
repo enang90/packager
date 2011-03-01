@@ -6,6 +6,14 @@ class VersionsController extends AppController {
   var $name = 'Versions';
   var $components = array('Session', 'Appcast', 'Hudson', 'RequestHandler');
   var $uses = array('User', 'Brand', 'Version');
+  
+  var $permissions = array(
+    'index' => '*',
+    'download' => '*',
+    'appcast' => '*',
+    'archive' => array('authenticated'),
+    'add' => array('authenticated'),
+  );
 
   function beforeFilter() {
 	  parent::beforeFilter();
@@ -251,7 +259,7 @@ class VersionsController extends AppController {
 
     // brand not found
     if (!$brand) {
-      $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.'), 'pandion');
+      $this->_flash(__('We could not find a brand associated with your session. Please switch to a brand through the brand selector.', TRUE), 'pandion');
       $brand = FALSE;
     }
 
