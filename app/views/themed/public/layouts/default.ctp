@@ -6,6 +6,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <?php echo $this->Html->css('reset.css'); ?>
   <?php echo $this->Html->css('public.css'); ?>
+  <?php echo $this->Html->script(array('https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', 'http://cdn.jquerytools.org/1.2.5/all/jquery.tools.min.js')); ?>
   <?php echo $scripts_for_layout; ?>
 </head>
 <body>
@@ -13,6 +14,9 @@
   <div id="container">
 
     <header class="navigation">
+      <nav class="project">
+        <?php echo $html->link(__('Pandion IM Project Homepage', TRUE), '/', array('class' => 'homepage', 'title' => __('Pandion IM Project Homepage', TRUE))); ?>
+      </nav>
       <hgroup class="logo">
         <h1><?php __('Pandion Packager'); ?></h1>
         <h2><?php __('IM client management made easy.'); ?></h2>
