@@ -32,28 +32,27 @@ class BrandsController extends AppController {
 	 * Add a brand new brand
 	 */
 	function add() {
-		$this->set('user_id', $this->User->id);
-		
-		if ((!empty($this->data)) && ($this->Brand->validates())) {
-			
-			$this->__uploadBrandIcon();
+	  $this->set('user_id', $this->User->id);
 
-      //@todo set the Brand inactive until payment has been received
+	  if ($this->data) {
+	    if (!$this->data['Brand']['image']['error']) {
+	      $this->__uploadBrandIcon();
+	    }
 
-      // Save the Brand and return to the dashboard
-      if ($this->Brand->save($this->data)) {
-	      $brand = $this->Brand->find("id = '" . $this->Brand->id . "'"); // urgh, extra query...
-	      $this->Session->write('Brand', $brand['Brand']);
-        $this->Session->setFlash('Your brand has been saved');
+	    if ($id = $this->Brand->save($this->data)) {
+	      $this->Brand->read(NULL, $this->Brand->id);
+	      $brand = $this->Brand->data['Brand'];
+	      $this->Session->write('Brand', $brand);
+        $this->_flash(sprintf(__('Your brand %s has been saved.', TRUE), $brand['name']), 'pandion');
 
-	      $this->redirect(array('controller' => 'brands', 'action' => 'subscriptions', $this->Brand->id));
+        $this->redirect(array('controller' => 'subscriptions', 'action' => 'index'));
       }
 
-      // @todo redirect to the actual page they are on instead of defaulting to the dashboard
-			$this->redirect(array('controller' => 'brands', 'action' => 'index'));
-    }
+      $this->_flash(sprintf(__('Oops. Something went wrong. We could not save your brand.', TRUE)), 'pandion');
+      $this->redirect(array('controller' => 'brands', 'action' => 'index'));
+	  }
 	}
-	
+
 	/**
 	 * Edit a brand
 	 */
