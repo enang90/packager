@@ -39,6 +39,7 @@ class AppController extends Controller {
       $this->Auth->allow();
     }
 
+    // Set some packager specific parameters and activate default Brand
     if ($user = $this->Auth->user()) {
       // load the User if logged in.
       $this->User =	ClassRegistry::init('User');
