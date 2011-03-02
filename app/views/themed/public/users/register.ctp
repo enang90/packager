@@ -1,20 +1,27 @@
-<h2>Sign up</h2>
+<section class="panel">
 
-<p><?php echo __('Register an account with Pandion Packager.'); ?></p>
+  <section class="dialog">
 
-<?php
-  echo $this->Form->create('User', array('action' => 'register'));
-?>
+    <h1><?php echo __('Sign Up'); ?></h1>
+    <p><?php echo __('Create an account to get started.'); ?></p>
 
-<div class="user-registration">
-<?php
-  echo $this->Form->input('name', array('label' => 'Full name'));
-  echo $this->Form->input('email');
-  echo $this->Form->input('password');
-  echo $this->Form->input('password_confirm', array('label' => 'Confirm password', 'type' => 'password'));
-?>
-</div>
+    <?php
+      echo $this->Form->create('User', array('action' => 'register'));
+    ?>
 
-<?php
-  echo $this->Form->end('Sign up!');
-?>
+    <div class="user-registration">
+    <?php
+      echo $this->Form->input('name', array('autofocus' => 'autofocus'));
+      echo $this->Form->input('email');
+      echo $this->Form->input('password');
+      echo $this->Form->input('password_confirm', array('label' => 'Confirm Password', 'type' => 'password'));
+    ?>
+    </div>
+
+    <?php
+      echo $this->Form->end(array('label' => 'Sign Up!', 'class' => 'bonbon blue glass'));
+    ?>
+
+  </section>
+
+</section>

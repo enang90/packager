@@ -7,6 +7,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <?php echo $this->Html->css('reset.css'); ?>
   <?php echo $this->Html->css('public.css'); ?>
+  <?php echo $this->Html->css('bonbon.css'); ?>
   <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <?php echo $this->Html->script(array('https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', 'http://cdn.jquerytools.org/1.2.5/all/jquery.tools.min.js')); ?>
   <?php echo $scripts_for_layout; ?>
@@ -36,7 +37,7 @@
       <h1><?php __('Sitemap'); ?></h1>
       <ul>
         <li><?php echo $html->link(__('Home', TRUE), '/', array()); ?></li>
-        <li><?php echo $html->link(__('Pricing and Sign Up', TRUE), '/users/login', array()); ?></li>
+        <li><?php echo $html->link(__('Sign Up', TRUE), '/users/login', array()); ?></li>
         <li><?php echo $html->link(__('Manage your IM Client', TRUE), '/brands', array()); ?></li>
         <li><?php echo $html->link(__('About', TRUE), '/about', array()); ?></li>
       </ul>
