@@ -17,7 +17,7 @@
 
     <header class="navigation">
       <nav class="project">
-        <?php echo $html->link(__('Pandion IM Homepage', TRUE), '/', array('class' => 'homepage', 'title' => __('Pandion IM Homepage', TRUE))); ?>
+        <?php echo $html->link(__('Pandion IM Homepage', TRUE), 'http://pandion.im/', array('class' => 'homepage', 'title' => __('Pandion IM Homepage', TRUE))); ?>
       </nav>
       <hgroup class="logo">
         <h1><?php __('Pandion Packager'); ?></h1>
