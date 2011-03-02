@@ -25,7 +25,7 @@ class User extends AppModel {
   );
 	
 	var $validate = array(
-		'first_name' => array(
+		'name' => array(
 			'alphaNumeric' => array(
 				'allowEmpty' => FALSE,
     		'required' => TRUE,
@@ -33,14 +33,6 @@ class User extends AppModel {
 				'message' => 'Letters and numbers only',
 			),
 		),
-		'last_name' => array(
-	  	'alphaNumeric' => array(
-				'allowEmpty' => FALSE,
-    		'required' => TRUE,
-				'rule' => array('alphaNumeric'),
-				'message' => 'Letters and numbers only',
-		  ),
-	  ),
 		'email' => array(
 			'email' => array(
 				'allowEmpty' => FALSE,

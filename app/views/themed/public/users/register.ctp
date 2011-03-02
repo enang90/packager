@@ -3,13 +3,12 @@
 <p><?php echo __('Register an account with Pandion Packager.'); ?></p>
 
 <?php
-  echo $this->Form->create('User', array('action' => 'register', 'type' => 'file'));
+  echo $this->Form->create('User', array('action' => 'register'));
 ?>
 
 <div class="user-registration">
 <?php
-  echo $this->Form->input('first_name', array('label' => 'First name'));
-  echo $this->Form->input('last_name', array('label' => 'Last name'));
+  echo $this->Form->input('name', array('label' => 'Full name'));
   echo $this->Form->input('email');
   echo $this->Form->input('password');
   echo $this->Form->input('password_confirm', array('label' => 'Confirm password', 'type' => 'password'));

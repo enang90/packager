@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* App schema generated on: 2011-03-02 05:03:11 : 1299040691*/
+/* App schema generated on: 2011-03-02 08:03:01 : 1299049501*/
 class AppSchema extends CakeSchema {
 	var $name = 'App';
 
@@ -38,8 +38,8 @@ class AppSchema extends CakeSchema {
 	);
 	var $settings = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
-		'value' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 60),
+		'key' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'value' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
@@ -71,8 +71,7 @@ class AppSchema extends CakeSchema {
 	);
 	var $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'first_name' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'last_name' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40),
 		'email' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 40),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
