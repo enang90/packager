@@ -1,4 +1,9 @@
 
+<nav id="secondary-menu">
+   <li><?php print $this->Html->link('All settings', '/admin/settings'); ?></li>
+   <li><?php print $this->Html->link('Add setting', '/admin/settings/add'); ?></li>
+</nav>
+
 <h2><?php __('Add a setting'); ?></h2>
 
 <?php

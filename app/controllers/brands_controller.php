@@ -4,7 +4,7 @@ class BrandsController extends AppController {
 	var $theme = 'private';
   var $name = 'Brands';
   var $components = array('Upload', 'Session');
-  var $uses = array('User', 'Brand');
+  var $uses = array('Brand', 'User', 'Setting');
   
   var $permissions = array(
     'index' => '*',
@@ -26,6 +26,10 @@ class BrandsController extends AppController {
 
   function beforeFilter() {
 	  parent::beforeFilter();
+
+	  if ($this->params['admin']) {
+	    $this->theme = 'admin';
+	  }
   }
 		
 	/**
@@ -112,6 +116,58 @@ class BrandsController extends AppController {
 			$this->Session->setFlash($errors);
 			$this->redirect(array('controller' => 'brands', 'action' => 'index'));
 			exit();
- 		}		
+ 		}
+	}
+
+	function admin_index() {
+		$this->Brand->recursive = 0;
+		$this->set('brands', $this->paginate());
+	}
+
+	function admin_view($id = null) {
+		if (!$id) {
+			$this->flash(__('Invalid brand', true), array('action' => 'index'));
+		}
+		$this->set('brand', $this->Brand->read(null, $id));
+	}
+
+	function admin_add() {
+		if (!empty($this->data)) {
+			$this->Brand->create();
+			if ($this->Brand->save($this->data)) {
+				$this->flash(__('Brand saved.', true), array('action' => 'index'));
+			} else {
+			}
+		}
+		$users = $this->Brand->User->find('list');
+		$this->set(compact('users'));
+	}
+
+	function admin_edit($id = null) {
+		if (!$id && empty($this->data)) {
+			$this->flash(sprintf(__('Invalid brand', true)), array('action' => 'index'));
+		}
+		if (!empty($this->data)) {
+			if ($this->Brand->save($this->data)) {
+				$this->flash(__('The brand has been saved.', true), array('action' => 'index'));
+			} else {
+			}
+		}
+		if (empty($this->data)) {
+			$this->data = $this->Brand->read(null, $id);
+		}
+		$users = $this->Brand->User->find('list');
+		$this->set(compact('users'));
+	}
+
+	function admin_delete($id = null) {
+		if (!$id) {
+			$this->flash(sprintf(__('Invalid brand', true)), array('action' => 'index'));
+		}
+		if ($this->Brand->delete($id)) {
+			$this->flash(__('Brand deleted', true), array('action' => 'index'));
+		}
+		$this->flash(__('Brand was not deleted', true), array('action' => 'index'));
+		$this->redirect(array('action' => 'index'));
 	}
 }

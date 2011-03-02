@@ -24,6 +24,10 @@ class AppController extends Controller {
 	var $permissions = array();
 
 	function beforeFilter(){
+	  // load settings into core Configure component
+	  $this->_fetchSettings();
+
+	  // Set the Auth component settings
 	  $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
     $this->Auth->loginRedirect = array('controller' => 'brands', 'action' => 'index');
     $this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'display', 'home');
@@ -35,6 +39,7 @@ class AppController extends Controller {
       $this->Auth->allow();
     }
 
+    // Set some packager specific parameters and activate default Brand
     if ($user = $this->Auth->user()) {
       // load the User if logged in.
       $this->User =	ClassRegistry::init('User');
@@ -122,6 +127,18 @@ class AppController extends Controller {
       $this->log(__(sprintf('The transaction %s could not be processed.', $txnId), TRUE), 'paypal');
       $this->log(__(sprintf('Status of transaction %s : %s', $txnId, $transaction['InstantPaymentNotification']['payment_status']), TRUE), 'paypal');
       //Oh no, better look at this transaction to determine what to do; like email a decline letter.
+    }
+  }
+
+  /**
+   * Sets application wide settings per request and loads them into the Configure component
+   */
+  function _fetchSettings() {
+    App::import('Model', 'Setting');
+    $settings = new Setting();
+    $all_settings = $settings->find('all');
+    foreach ($all_settings as $key => $value) {
+      Configure::write('Pandion.' . $value['Setting']['key'], $value['Setting']);
     }
   }
 
