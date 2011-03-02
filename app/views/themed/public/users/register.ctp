@@ -19,7 +19,7 @@
     </div>
 
     <?php
-      echo $this->Form->end(array('label' => 'Sign Up!', 'class' => 'bonbon blue glass'));
+      echo $this->Form->end(array('label' => 'Sign Up!', 'class' => 'bonbon blue'));
     ?>
 
   </section>
