@@ -1,6 +1,19 @@
+<nav id="secondary-menu">
+   <li><?php print $this->Html->link('All settings', '/admin/settings'); ?></li>
+   <li><?php print $this->Html->link('Add setting', '/admin/settings/add'); ?></li>
+</nav>
+
 <h2><?php __('Settings'); ?></h2>
 
-<table class="settings">
+<table class="admin-tabular" id="settings">
+  <thead>
+    <tr>
+      <td><?php __('Key')?></td>
+      <td><?php __('Value')?></td>
+      <td><?php __('Operations')?></td>
+    </tr>
+  </thead>
+  <tbody>
 <?php
 
 $fields = array('key', 'value', 'operations');
@@ -27,4 +40,5 @@ foreach ($settings as $setting) {
 }
 
 ?>
+  </tbody>
 </table>
