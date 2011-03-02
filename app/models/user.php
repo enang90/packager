@@ -9,6 +9,20 @@ class User extends AppModel {
       'foreignKey' => 'group_id'
     )
   );
+  
+  /**
+   * defines a relationship between Brands and Users.
+   * A user can maintain multiple brands, a brand can be maintained by multiple users
+   */
+  var $hasAndBelongsToMany = array(
+  	'Brand' => array(
+  		'className' => 'Brand',
+  		'joinTable' => 'brands_users',
+  		'foreignKey' => 'user_id',
+  		'associatedForeignKey' => 'brand_id',
+  		'unique' => TRUE,
+  	),
+  );
 	
 	var $validate = array(
 		'first_name' => array(
@@ -58,20 +72,6 @@ class User extends AppModel {
 	    'rule' => 'alphanumeric',
       'required' => true
     ),
-	);
-	
-	/**
-	 * defines a relationship between Brands and Users.
-	 * A user can maintain multiple brands, a brand can be maintained by multiple users
-	 */
-	var $hasAndBelongsToMany = array(
-		'Brand' => array(
-			'className' => 'Brand',
-			'joinTable' => 'brands_users',
-			'foreignKey' => 'user_id',
-			'associatedForeignKey' => 'brand_id',
-			'unique' => TRUE,
-		),
 	);
 	
 	/**

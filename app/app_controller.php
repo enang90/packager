@@ -24,6 +24,7 @@ class AppController extends Controller {
 	var $permissions = array();
 
 	function beforeFilter(){
+	  $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
     $this->Auth->loginRedirect = array('controller' => 'brands', 'action' => 'index');
     $this->Auth->logoutRedirect = array('controller' => 'pages', 'action' => 'display', 'home');
     $this->Auth->authorize = 'controller';
@@ -71,6 +72,7 @@ class AppController extends Controller {
       if ($this->permissions[$this->action] == '*') {
         return TRUE;
       }
+
       if (in_array($this->Auth->user('group'), $this->permissions[$this->action])) {
         return TRUE;
       }
