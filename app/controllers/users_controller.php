@@ -9,9 +9,9 @@ class UsersController extends AppController {
   var $permissions = array(
     'register' => '*',
     'logout' => '*',
-    'login' => '*',
+    'setgroup' => '*',
     'index' => array('authenticated'),
-    );
+  );
 
   function beforeFilter() {
     parent::beforeFilter();
@@ -20,9 +20,9 @@ class UsersController extends AppController {
 
   function index() { }
 
-    /**
-    * Registers a new user account and their first brand
-    */
+  /**
+  * Registers a new user account and their first brand
+  */
   function register() {
     // A logged in user shouldn't be hitting the register page
     if ($this->Auth->user()) {
@@ -49,11 +49,8 @@ class UsersController extends AppController {
   * This is a callback function executed after authentication. It will set the users' group
   * in the session. This will then be used in the isAuthorized() function to check the permissions
   */
-  function login() {
-    if ($this->Auth->user()) {
-      $this->Session->write('Auth.User.group', $this->User->Group->field('name', array('id' => $this->Auth->user('group_id'))));
-      $this->redirect($this->Auth->redirect()); 
-    }
+  function login() { 
+    // look at brands/index for relevant code
   }
 
   /**
