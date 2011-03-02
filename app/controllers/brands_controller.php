@@ -14,7 +14,12 @@ class BrandsController extends AppController {
     'switchBrand' => array('authenticated'),
   );
 
-  function index() {  
+  // @todo: figure out why this piece of code has to be here if loginRedirect is set (?)
+  //   should be in the users/login action after validation success
+  function index() {
+    if ($this->Auth->user()) {
+      $this->Session->write('Auth.User.group', $this->User->Group->field('name', array('id' => $this->Auth->user('group_id'))));
+    }
 	}
 	
 	function help() { }
