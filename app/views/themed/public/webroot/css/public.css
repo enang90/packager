@@ -220,6 +220,17 @@ section.dialog {
 section.dialog h1 {
 	color: #2467b1;
 }
+section.dialog h1.auth,
+section.dialog h1.register {
+	padding: 10px 0 20px 60px;
+	background: no-repeat top left;
+}
+section.dialog h1.auth {
+	background-image: url("../../../img/icon-keys.png");
+}
+section.dialog h1.register {
+	background-image: url("../../../img/icon-pencil.png");
+}
 section.dialog p {
 	margin-bottom: 30px;
 }

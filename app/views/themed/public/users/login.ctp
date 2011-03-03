@@ -2,7 +2,7 @@
 
   <section class="dialog">
 
-    <h1><?php echo __('Log In'); ?></h1>
+    <h1 class="auth"><?php echo __('Log In'); ?></h1>
     <p><?php echo __('Enter your email address and password to access your IM client dashboard.'); ?></p>
 
 <?php

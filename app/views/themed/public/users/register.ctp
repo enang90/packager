@@ -2,7 +2,7 @@
 
   <section class="dialog">
 
-    <h1><?php echo __('Sign Up'); ?></h1>
+    <h1 class="register"><?php echo __('Sign Up'); ?></h1>
     <p><?php echo __('Create an account to get started.'); ?></p>
 
     <?php
