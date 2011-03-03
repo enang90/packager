@@ -10,6 +10,7 @@
   <?php echo $this->Html->css('bonbon.css'); ?>
   <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <?php echo $this->Html->script(array('https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', 'http://cdn.jquerytools.org/1.2.5/all/jquery.tools.min.js')); ?>
+  <?php echo $this->Html->script(array('/js/global.js')); ?>
   <?php echo $scripts_for_layout; ?>
 </head>
 <body>
@@ -27,9 +28,12 @@
       <?php echo $this->element('login'); ?>
     </header>
 
-    <section class="content">
+    <section class="flash">
       <?php echo $session->flash(); ?>
       <?php echo $session->flash('auth'); ?>
+    </section>
+
+    <section class="content">
       <?php echo $content_for_layout; ?>
     </section>
 
