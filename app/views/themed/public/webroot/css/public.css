@@ -449,13 +449,6 @@ footer.closing p {
 	line-height: 1.6;
 }
 .intro .signup-button {
-	display: block;
-	font-size: 18pt;
-	margin: 0 auto;
-	padding: 15px;
-	text-align: center;
-}
-.intro .signup-button:hover {
-	color: #be0a29;
+	margin: 30px auto 0 130px;
 }
 /* /home */

@@ -19,7 +19,7 @@
   <article class="intro">
     <h1><?php __('Customize, Automate, Deploy.'); ?></h1>
     <p><?php __('Pandion Packager is a service for network administrators to automate Pandion IM deployment. Create a branded instant messaging client, configure settings, deploy to unlimited users, and manage software updates. All from an easy to use web interface.'); ?></p>
-    <p><?php echo $html->link(__('Sign Up', TRUE), '/users/register', array('class' => 'signup-button')); ?></p>
+    <p><?php echo $html->link(__('Sign Up', TRUE), '/users/register', array('class' => 'signup-button bonbon blue xl')); ?></p>
   </article>
 </section>
 
