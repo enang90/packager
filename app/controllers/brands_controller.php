@@ -3,7 +3,7 @@ class BrandsController extends AppController {
 	var $view = 'Theme';
 	var $theme = 'private';
   var $name = 'Brands';
-  var $components = array('Upload', 'Session');
+  var $components = array('Upload', 'Session', 'PandionAsset');
   var $uses = array('Brand', 'User', 'Setting');
   
   var $permissions = array(
@@ -27,7 +27,7 @@ class BrandsController extends AppController {
   function beforeFilter() {
 	  parent::beforeFilter();
 
-	  if ($this->params['admin']) {
+	  if (isset($this->params['admin'])) {
 	    $this->theme = 'admin';
 	  }
   }
@@ -39,16 +39,37 @@ class BrandsController extends AppController {
 	  $this->set('user_id', $this->User->id);
 
 	  if ($this->data) {
-	    if (!$this->data['Brand']['image']['error']) {
-	      $this->__uploadBrandIcon();
-	    }
+	    // create an md5 hashed foldername
+	    $this->data['Brand']['folder'] = md5($this->data['Brand']['name']);
 
 	    if ($id = $this->Brand->save($this->data)) {
 	      $this->Brand->read(NULL, $this->Brand->id);
 	      $brand = $this->Brand->data['Brand'];
-	      $this->Session->write('Brand', $brand);
-        $this->_flash(sprintf(__('Your brand %s has been saved.', TRUE), $brand['name']), 'pandion');
 
+	      $this->PandionAsset->setBrandFolder($brand['folder']);
+        $brandFolder = $this->PandionAsset->createBrandFolder();
+
+        if ($errors = $this->PandionAsset->errors()) {
+          $this->_flash(sprintf(__('Oops. Something went wrong. We could not save your brand.', TRUE)), 'pandion');
+          foreach ($errors as $error) {
+            $this->log("Brand # " . $brand['name'] . " :: $error", 'pandion');
+          }
+          // @todo: why does this redirect to the folder instead of 'index'
+          $this->redirect(array('controller' => 'brands', 'action' => 'add'));
+	      }
+
+	      // @todo: move the upload functionality of an icon to the model :: getter/setter function
+        /* if ($this->PandionFolder->createBrandFolder($brandName)) {
+          if (!$this->data['Brand']['image']['error']) {
+        	  $this->_uploadBrandIcon();
+        	}
+        } */
+
+	      // Set the brand as active for the users' session
+	      $this->Session->write('Brand', $brand);
+
+	      // Flash message + redirect to the subscriptions page
+        $this->_flash(sprintf(__('Your brand %s has been saved.', TRUE), $brand['name']), 'pandion');
         $this->redirect(array('controller' => 'subscriptions', 'action' => 'index'));
       }
 
@@ -66,7 +87,7 @@ class BrandsController extends AppController {
 	    $this->data = $this->Brand->read();
     } else {
 
-    	$this->__uploadBrandIcon();
+    	$this->_uploadBrandIcon();
 
 	    if ($this->Brand->save($this->data, FALSE)) {
 		    $this->Session->write('Brand', $this->Brand->data['Brand']);
@@ -92,7 +113,8 @@ class BrandsController extends AppController {
     $this->redirect(array('controller' => 'brands', 'action' => 'index'));
 	}
 
-	function __uploadBrandIcon() {
+	function _uploadBrandIcon() {
+
 		// Image handling
 		$destination = realpath('../../app/webroot/img/icons/') . '/';
 		$file = $this->data['Brand']['image'];
