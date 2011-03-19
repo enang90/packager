@@ -18,7 +18,7 @@
  */
 
 class AppController extends Controller {
-  var $components = array('Session', 'Auth',);
+  var $components = array('Session', 'Auth');
   var $helpers = array('Session', 'Html', 'Time', 'Ajax', 'PaypalIpn.Paypal');
 	var $publicControllers = array('pages');
 	var $permissions = array();
